@@ -10,6 +10,8 @@ import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.controls.VoltageOut;
 import com.ctre.phoenixpro.hardware.TalonFX;
 
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+
 /** Add your docs here. */
 public class SwerveModuleIOSim implements SwerveModuleIO{
 
@@ -29,7 +31,9 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     }
 
     @Override
-    public void updateInputs(SwerveModuleIOInputs inputs) {
+    public SwerveModuleIOInputsAutoLogged updateInputs() {
+
+        SwerveModuleIOInputsAutoLogged inputs = new SwerveModuleIOInputsAutoLogged();
         var swerveSimState = swerveMotor.getSimState();
         var driveSimState = driveMotor.getSimState();
 
@@ -41,17 +45,22 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         inputs.driveVelocityMetersPerSecond = 0.0;
     
         inputs.swervePositionMeters = 0.0;
-        inputs.drivePositionMeters = 0.0;
+        inputs.drivePositionMeters = (driveMotor.getPosition().getValue() / 6.86 ) * (4 * Math.PI); // 6.86 to adjust for gear ratio, and then multiply by circumfrence
     
         inputs.swerveCurrentAmps = new double[] {swerveSimState.getTorqueCurrent()};
         inputs.swerveTempCelsius = new double[0];
         inputs.driveCurrentAmps = new double[] {driveSimState.getTorqueCurrent()};
         inputs.driveTempCelsius = new double[0];
 
+        return inputs;
+       
+
         
 
 
     }
+
+    
 
     @Override
     public void setDrive(double rotation, double position) {
