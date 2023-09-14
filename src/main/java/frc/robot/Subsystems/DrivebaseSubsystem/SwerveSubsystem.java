@@ -82,10 +82,10 @@ public class SwerveSubsystem extends SubsystemBase {
         backRightInputs = new SwerveModuleIOInputsAutoLogged();
     }
 
-    public CommandBase drive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta){
+    public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta){
         return new RunCommand(() -> {
 
-         speeds = new ChassisSpeeds(x.getAsDouble(), y.getAsDouble(), theta.getAsDouble());
+         speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), theta.getAsDouble());
 
         // Convert to module states
         moduleStates = swerveKinematics.toSwerveModuleStates(speeds);

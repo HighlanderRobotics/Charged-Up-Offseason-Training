@@ -11,6 +11,7 @@ import com.ctre.phoenixpro.controls.VoltageOut;
 import com.ctre.phoenixpro.hardware.TalonFX;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 
 /** Add your docs here. */
 public class SwerveModuleIOSim implements SwerveModuleIO{
@@ -36,8 +37,8 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         SwerveModuleIOInputsAutoLogged inputs = new SwerveModuleIOInputsAutoLogged();
         var swerveSimState = swerveMotor.getSimState();
         var driveSimState = driveMotor.getSimState();
-
-        
+        swerveSimState.setSupplyVoltage(RoboRioSim.getVInVoltage());
+        driveSimState.setSupplyVoltage(RoboRioSim.getVInVoltage());
         inputs.swerveOutputVolts = swerveSimState.getMotorVoltage();
         inputs.driveOutputVolts = driveSimState.getMotorVoltage();
     
@@ -46,7 +47,7 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     
         inputs.swervePositionMeters = 0.0;
         inputs.drivePositionMeters = (driveMotor.getPosition().getValue() / 6.86 ) * (4 * Math.PI); // 6.86 to adjust for gear ratio, and then multiply by circumfrence
-    
+        
         inputs.swerveCurrentAmps = new double[] {swerveSimState.getTorqueCurrent()};
         inputs.swerveTempCelsius = new double[0];
         inputs.driveCurrentAmps = new double[] {driveSimState.getTorqueCurrent()};

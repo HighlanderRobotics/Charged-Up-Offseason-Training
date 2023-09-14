@@ -6,11 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOSim;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
 
 public class RobotContainer {
-  
+  CommandXboxController controller = new CommandXboxController(0);
+
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem(
     new SwerveModuleIOSim(0, 1), 
     new SwerveModuleIOSim(2, 3), 
@@ -21,7 +23,12 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    swerveSubsystem.setDefaultCommand(swerveSubsystem.drive(
+      () -> controller.getLeftY(),
+      () -> controller.getLeftX(), 
+      () -> controller.getRightX()) );
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
