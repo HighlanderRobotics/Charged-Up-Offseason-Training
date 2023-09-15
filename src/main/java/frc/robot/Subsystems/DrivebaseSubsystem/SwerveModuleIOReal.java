@@ -14,8 +14,8 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 
-/** Add your docs here. */
-public class SwerveModuleIOSim implements SwerveModuleIO{
+/** Does not work as real yet. */
+public class SwerveModuleIOReal implements SwerveModuleIO{
 
     TalonFX swerveMotor;
     TalonFX driveMotor;
@@ -27,7 +27,7 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     PositionVoltage swerveRequest = new PositionVoltage(0);
     VelocityVoltage driveRequest = new VelocityVoltage(0);
 
-    public SwerveModuleIOSim(int swerveID, int driveID){
+    public SwerveModuleIOReal(int swerveID, int driveID){
         swerveMotor = new TalonFX(swerveID);
         driveMotor = new TalonFX(driveID);
         var driveConfigs = new Slot0Configs();
