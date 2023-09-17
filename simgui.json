@@ -1,6 +1,19 @@
 {
   "HALProvider": {
+    "Other Devices": {
+      "Talon FX (Pro)[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
     "RoboRIO": {
+      "5V Rail": {
+        "open": true
+      },
+      "RoboRIO Input": {
+        "open": true
+      },
       "window": {
         "visible": true
       }
@@ -9,11 +22,28 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [2]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [3]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [6]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [7]": "Motor Controller"
     }
   },
   "NetworkTables": {
     "transitory": {
+      "AdvantageKit": {
+        "Back Left Swerve": {
+          "open": true
+        },
+        "Front Right Swerve": {
+          "open": true
+        },
+        "open": true
+      },
       "LiveWindow": {
         ".status": {
           "open": true

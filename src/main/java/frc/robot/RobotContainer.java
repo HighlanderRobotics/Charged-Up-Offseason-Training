@@ -15,10 +15,10 @@ public class RobotContainer {
   CommandXboxController controller = new CommandXboxController(0);
 
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem(
-    new SwerveModuleIOSim(0, 1), 
-    new SwerveModuleIOSim(2, 3), 
-    new SwerveModuleIOSim(4, 5), 
-    new SwerveModuleIOSim(6, 7));
+    new SwerveModuleIOSim(), 
+    new SwerveModuleIOSim(), 
+    new SwerveModuleIOSim(), 
+    new SwerveModuleIOSim());
 
   public RobotContainer() {
     configureBindings();
@@ -29,6 +29,7 @@ public class RobotContainer {
       () -> controller.getLeftY(),
       () -> controller.getLeftX(), 
       () -> controller.getRightX()) );
+      
   }
 
   public Command getAutonomousCommand() {

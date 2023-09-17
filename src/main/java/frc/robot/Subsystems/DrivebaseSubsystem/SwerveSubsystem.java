@@ -24,14 +24,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIO.SwerveModuleIOInputs;
 
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase {
-    SwerveModuleIO frontLeftIo;
-    SwerveModuleIO frontRightIo;
-    SwerveModuleIO backLeftIo;
-    SwerveModuleIO backRightIo;
+
+    CommandXboxController controller = new CommandXboxController(0);
+
+    SwerveModuleIOSim frontLeftIo;
+    SwerveModuleIOSim frontRightIo;
+    SwerveModuleIOSim backLeftIo;
+    SwerveModuleIOSim backRightIo;
 
     SwerveModuleIOInputsAutoLogged frontLeftInputs;
     SwerveModuleIOInputsAutoLogged frontRightInputs;
@@ -45,7 +49,7 @@ public class SwerveSubsystem extends SubsystemBase {
     Translation2d backLeftLocation = new Translation2d(-0.381, 0.381);
     Translation2d backRightLocation = new Translation2d(-0.381, -0.381);
 
-    // Creating my kinematics object using the module locations
+    // Creating kinematics object using the module locations
     // Copied from documentation
     SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
         frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation
@@ -76,7 +80,7 @@ public class SwerveSubsystem extends SubsystemBase {
             new SwerveModulePosition()
         }, pose);
     
-    public SwerveSubsystem(SwerveModuleIO frontLeftIo, SwerveModuleIO frontRightIo, SwerveModuleIO backLeftIo,SwerveModuleIO backRightIo){
+    public SwerveSubsystem(SwerveModuleIOSim frontLeftIo, SwerveModuleIOSim frontRightIo, SwerveModuleIOSim backLeftIo,SwerveModuleIOSim backRightIo){
         this.frontLeftIo = frontLeftIo;
         this.frontRightIo = frontRightIo;
         this.backLeftIo = backLeftIo;
@@ -99,12 +103,15 @@ public class SwerveSubsystem extends SubsystemBase {
          backLeft = moduleStates[2];
          backRight = moduleStates[3];
 
+
         
 
             frontLeftIo.setDrive(frontLeft.angle.getDegrees(), frontLeft.speedMetersPerSecond);
             frontRightIo.setDrive(frontRight.angle.getDegrees(), frontRight.speedMetersPerSecond);
             backLeftIo.setDrive(backLeft.angle.getDegrees(), backLeft.speedMetersPerSecond);
             backRightIo.setDrive(backRight.angle.getDegrees(), backRight.speedMetersPerSecond);
+
+            
 
         }, this);
     }
@@ -122,7 +129,11 @@ public class SwerveSubsystem extends SubsystemBase {
         Logger.getInstance().processInputs("Front Right Swerve", frontRightInputs);
         Logger.getInstance().processInputs("Back Left Swerve", backLeftInputs);
         Logger.getInstance().processInputs("Back Right Swerve", backRightInputs);
+        Logger.getInstance().recordOutput("leftX", controller.getLeftX());
         Logger.getInstance().recordOutput("Pose", pose);
+
+       // System.out.println(frontLeftInputs.driveOutputVolts);
+
 
         pose = odometry.update(new Rotation2d(),
         new SwerveModulePosition[] {
