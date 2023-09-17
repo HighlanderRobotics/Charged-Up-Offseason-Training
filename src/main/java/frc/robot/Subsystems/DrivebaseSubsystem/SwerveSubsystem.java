@@ -42,6 +42,8 @@ public class SwerveSubsystem extends SubsystemBase {
     SwerveModuleIOInputsAutoLogged backLeftInputs;
     SwerveModuleIOInputsAutoLogged backRightInputs;
 
+    double heading = 0.0;
+
     // Locations for the swerve drive modules relative to the robot center.
     // Copied from documentation
     Translation2d frontLeftLocation = new Translation2d(0.381, 0.381);
@@ -95,6 +97,8 @@ public class SwerveSubsystem extends SubsystemBase {
         return new RunCommand(() -> {
 
          speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), theta.getAsDouble());
+         
+         heading += theta.getAsDouble() * 0.02;
 
         // Convert to module states
         moduleStates = swerveKinematics.toSwerveModuleStates(speeds);
@@ -129,13 +133,13 @@ public class SwerveSubsystem extends SubsystemBase {
         Logger.getInstance().processInputs("Front Right Swerve", frontRightInputs);
         Logger.getInstance().processInputs("Back Left Swerve", backLeftInputs);
         Logger.getInstance().processInputs("Back Right Swerve", backRightInputs);
-        Logger.getInstance().recordOutput("leftX", controller.getLeftX());
+     //   System.out.println(controller.getRightX());
         Logger.getInstance().recordOutput("Pose", pose);
 
        // System.out.println(frontLeftInputs.driveOutputVolts);
 
 
-        pose = odometry.update(new Rotation2d(),
+        pose = odometry.update(Rotation2d.fromRadians(heading % 2* Math.PI),
         new SwerveModulePosition[] {
             new SwerveModulePosition(frontLeftInputs.drivePositionMeters,frontLeft.angle),
             new SwerveModulePosition(frontRightInputs.drivePositionMeters,frontRight.angle),
