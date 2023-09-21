@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -13,6 +14,7 @@ import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
 
 public class RobotContainer {
   CommandXboxController controller = new CommandXboxController(0);
+
 
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem(
     new SwerveModuleIOSim(), 
@@ -26,9 +28,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     swerveSubsystem.setDefaultCommand(swerveSubsystem.drive(
-      () -> controller.getLeftY(),
-      () -> controller.getLeftX(), 
-      () -> controller.getRightX()) );
+      () -> controller.getLeftY() * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */,
+      () -> controller.getLeftX() * Constants.DRIVEBASE_MAX_SPEED_FPS , 
+      () -> controller.getRightX() * -1 /* invert controls */) );
       
   }
 
