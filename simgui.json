@@ -41,8 +41,7 @@
         },
         "Front Right Swerve": {
           "open": true
-        },
-        "open": true
+        }
       },
       "LiveWindow": {
         ".status": {
@@ -50,8 +49,7 @@
         },
         "Ungrouped": {
           "open": true
-        },
-        "open": true
+        }
       }
     }
   }

@@ -29,8 +29,9 @@ public class RobotContainer {
   private void configureBindings() {
     swerveSubsystem.setDefaultCommand(swerveSubsystem.drive(
       () -> controller.getLeftY() * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */,
-      () -> controller.getLeftX() * Constants.DRIVEBASE_MAX_SPEED_FPS , 
-      () -> controller.getRightX() * -1 /* invert controls */) );
+      () -> controller.getLeftX() * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */, 
+      () -> controller.getRightX() * -1 /* invert controls */,
+      true) );
       
   }
 
