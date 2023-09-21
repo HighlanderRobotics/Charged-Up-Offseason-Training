@@ -11,16 +11,17 @@ import org.littletonrobotics.junction.AutoLog;
 public interface PivotIO {
     @AutoLog
     public class PivotIOInputs {
+
         //Motor values
         public double velocityRPM;
         public double currentDrawAmps;
         public double temperatureCelsius;
         public double motorOutputVolts;
-
         public double positionDegrees;
+
     }
 
-    public abstract void setPosition();
+    public abstract void setPosition(double degrees);
 
     public abstract PivotIOInputsAutoLogged updateInputs();
 

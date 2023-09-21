@@ -10,17 +10,16 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 public class PivotIOSim implements PivotIO{
     private final TalonFX motor = new TalonFX(0);
 
-
-
     public PivotIOInputsAutoLogged updateInputs() {
+
         PivotIOInputsAutoLogged input = new PivotIOInputsAutoLogged();
 
         //var motorSimState = motor.getSimState();
 
-        input.motorOutputVolts = motor.getSupplyVoltage().getValue();
-        input.velocityRPM = motor.getVelocity().getValue()/60;
+        input.velocityRPM = motor.getVelocity().getValue()*60;
         input.currentDrawAmps = motor.getStatorCurrent().getValue();
         input.temperatureCelsius = 0;
+        input.motorOutputVolts = motor.getSupplyVoltage().getValue();
         input.positionDegrees = motor.getPosition().getValue();
 
         return input;
@@ -28,7 +27,7 @@ public class PivotIOSim implements PivotIO{
     }
 
     @Override
-    public void setPosition() {
+    public void setPosition(double degrees) {
         //Set motor position
     }
     

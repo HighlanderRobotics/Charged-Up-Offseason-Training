@@ -20,9 +20,9 @@ public class PivotSubsystem extends SubsystemBase {
         inputs =  new PivotIOInputsAutoLogged();
     }
 
-    public CommandBase run(double volts) {
+    public CommandBase run(double degrees) {
         return new RunCommand(() -> {
-            io.setPosition();
+            io.setPosition(degrees);
         }, this);
     }   
 
