@@ -45,8 +45,8 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         inputs.swerveVelocityMetersPerSecond = 0.0;
         inputs.driveVelocityMetersPerSecond = 0.0;
     
-        inputs.swervePositionMeters = lastRotation * 0.02;
-        inputs.drivePositionMeters = lastPosition * 0.02;
+        inputs.swerveRotationRadians = lastRotation;
+        inputs.drivePositionMeters = lastPosition;
         
 
         return inputs;
@@ -63,8 +63,14 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     public void setDrive(double rotation, double position) {
         
 
-        lastPosition += position;
-        lastRotation += rotation;
+        lastPosition += position * 0.02;
+        lastRotation += rotation * 0.02;
 
+    }
+
+    @Override
+    public void setDriveVoltage(double rotation, double driveVoltage) {
+        // TODO Auto-generated method stub
+        
     }
 }

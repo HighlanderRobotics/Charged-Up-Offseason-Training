@@ -25,12 +25,19 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
   }
+  
+  public double deadband(double joystick){
+    if(Math.abs(joystick) < 0.1){
+      return 0;
+    }
+    return joystick;
+  }
 
   private void configureBindings() {
     swerveSubsystem.setDefaultCommand(swerveSubsystem.drive(
-      () -> controller.getLeftY() * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */,
-      () -> controller.getLeftX() * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */, 
-      () -> controller.getRightX() * -1 /* invert controls */,
+      () -> deadband(controller.getLeftY()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */,
+      () -> deadband(controller.getLeftX()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */, 
+      () -> deadband(controller.getRightX()) * -1 /* invert controls */,
       true) );
       
   }

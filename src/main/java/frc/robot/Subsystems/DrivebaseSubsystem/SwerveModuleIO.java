@@ -19,7 +19,7 @@ public interface SwerveModuleIO {
         public double swerveVelocityMetersPerSecond = 0.0;
         public double driveVelocityMetersPerSecond = 0.0;
     
-        public double swervePositionMeters = 0.0;
+        public double swerveRotationRadians = 0.0;
         public double drivePositionMeters = 0.0;
     
         public double[] swerveCurrentAmps = new double[0];
@@ -37,5 +37,7 @@ public interface SwerveModuleIO {
 
     public abstract SwerveModuleIOInputsAutoLogged updateInputs();
 
-    public abstract void setDrive(double rotation, double position);
+    public abstract void setDrive(double rotation, double driveMPS);
+
+    public abstract void setDriveVoltage(double rotation, double driveVoltage);
 }

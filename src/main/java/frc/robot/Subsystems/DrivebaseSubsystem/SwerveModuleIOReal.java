@@ -13,6 +13,7 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
+import frc.robot.Constants;
 
 /** Does not work as real yet. */
 public class SwerveModuleIOReal implements SwerveModuleIO{
@@ -59,7 +60,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         inputs.swerveVelocityMetersPerSecond = 0.0;
         inputs.driveVelocityMetersPerSecond = 0.0;
     
-        inputs.swervePositionMeters = 0.0;
+        inputs.swerveRotationRadians = 0.0;
         inputs.drivePositionMeters = (driveMotor.getPosition().getValue() / 6.86 ) * (4 * Math.PI); // 6.86 to adjust for gear ratio, and then multiply by circumfrence
         
         inputs.swerveCurrentAmps = new double[] {swerveSimState.getTorqueCurrent()};
@@ -81,8 +82,15 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     public void setDrive(double rotation, double position) {
         
 
-        swerveMotor.setControl(swerveRequest.withPosition(rotation * 12.8)); // adjust rotations for gear ratio
-        driveMotor.setControl(driveRequest.withVelocity(position * 6.86)); // adjust rotations for gear ratio
+        swerveMotor.setControl(swerveRequest.withPosition(rotation * Constants.ROTATION_GEAR_RATIO)); // adjust rotations for gear ratio
+        driveMotor.setControl(driveRequest.withVelocity(position * Constants.DRIVE_GEAR_RATIO)); // adjust rotations for gear ratio
 
+    }
+
+    @Override
+    public void setDriveVoltage(double rotation, double driveVoltage2) {
+        swerveMotor.setControl(swerveRequest.withPosition(rotation * Constants.ROTATION_GEAR_RATIO)); // adjust rotations for gear ratio
+        driveMotor.setControl(driveVoltage.withOutput(driveVoltage2 * Constants.DRIVE_GEAR_RATIO)); // adjust rotations for gear ratio
+        
     }
 }
