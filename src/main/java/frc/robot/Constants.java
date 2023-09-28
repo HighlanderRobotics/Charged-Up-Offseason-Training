@@ -13,15 +13,19 @@ public class Constants {
 
     public static final int MOTOR_ID_FRONT_LEFT_DRIVE = 0;
     public static final int MOTOR_ID_FRONT_LEFT_ROTATION = 1;
+    public static final int ENCODER_ID_FRONT_LEFT = 0;
 
     public static final int MOTOR_ID_FRONT_RIGHT_DRIVE = 2;
     public static final int MOTOR_ID_FRONT_RIGHT_ROTATION = 3;
+    public static final int ENCODER_ID_FRONT_RIGHT = 0;
 
     public static final int MOTOR_ID_BACK_LEFT_DRIVE = 4;
     public static final int MOTOR_ID_BACK_LEFT_ROTATION = 5;
+    public static final int ENCODER_ID_BACK_LEFT = 0;
 
     public static final int MOTOR_ID_BACK_RIGHT_DRIVE = 6;
     public static final int MOTOR_ID_BACK_RIGHT_ROTATION = 7;
+    public static final int ENCODER_ID_BACK_RIGHT = 0;
 
     public static final double ROTATION_GEAR_RATIO = 12.8;
     public static final double DRIVE_GEAR_RATIO = 6.86;
