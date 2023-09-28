@@ -5,11 +5,14 @@
 package frc.robot.Subsystems.DrivebaseSubsystem;
 
 import com.ctre.phoenixpro.configs.Slot0Configs;
+import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 import com.ctre.phoenixpro.controls.ControlRequest;
+import com.ctre.phoenixpro.controls.NeutralOut;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.controls.VoltageOut;
 import com.ctre.phoenixpro.hardware.TalonFX;
+import com.ctre.phoenixpro.signals.NeutralModeValue;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
@@ -27,23 +30,15 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
     PositionVoltage swerveRequest = new PositionVoltage(0);
     VelocityVoltage driveRequest = new VelocityVoltage(0);
-
+    
     public SwerveModuleIOReal(int swerveID, int driveID){
         swerveMotor = new TalonFX(swerveID);
         driveMotor = new TalonFX(driveID);
-        var driveConfigs = new Slot0Configs();
-        driveConfigs.kV = 1/6000;
-        driveConfigs.kP = 0.01;
-        driveConfigs.kI = 0.0;
-        driveConfigs.kD = 0.0;
-        driveMotor.getConfigurator().apply(driveConfigs, 0.050);
-
-        var swerveConfigs = new Slot0Configs();
-        swerveConfigs.kV = 1/6000;
-        swerveConfigs.kP = 0.01;
-        swerveConfigs.kI = 0.0;
-        swerveConfigs.kD = 0.0;
-        swerveMotor.getConfigurator().apply(driveConfigs, 0.050);
+        TalonFXConfiguration driveConfig  = new TalonFXConfiguration();
+        
+        driveMotor.getConfigurator().apply(driveConfig);
+       // driveMotor.setNeutralMode(NeutralModeValue.Brake);
+        swerveMotor.getConfigurator().apply(new TalonFXConfiguration());
     }
 
     @Override
