@@ -96,6 +96,6 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
     @Override
     public void resetEncoder(){
-        swerveMotor.setRotorPosition(encoder.getAbsolutePosition().getValue() * Constants.ROTATION_GEAR_RATIO);
+        swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue() + Constants.ENCODER_OFFSET) * Constants.ROTATION_GEAR_RATIO);
     }
 }

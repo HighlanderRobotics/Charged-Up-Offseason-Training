@@ -30,6 +30,8 @@ public class Constants {
     public static final double ROTATION_GEAR_RATIO = 12.8;
     public static final double DRIVE_GEAR_RATIO = 6.86;
 
+    public static final double ENCODER_OFFSET = 0;
+
     // Locations for the swerve drive modules relative to the robot center.
     // Copied from documentation
     public static final Translation2d FRONT_LEFT_LOCATION = new Translation2d(0.381, 0.381);
