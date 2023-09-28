@@ -73,4 +73,9 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public void resetEncoder(){
+        
+    }
 }
