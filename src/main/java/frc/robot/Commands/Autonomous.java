@@ -8,27 +8,31 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOSim;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
 
 /** Add your docs here. */
 public class Autonomous {
-    SwerveSubsystem swerveSubsystem = new SwerveSubsystem(
-    new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim());
+    SwerveSubsystem swerveSubsystem;
 
-    public  CommandBase auto(DoubleSupplier forward, DoubleSupplier turn, DoubleSupplier theta, boolean isFieldRelative){
-        return new RunCommand(() -> {
-            swerveSubsystem.drive(
-                () -> forward.getAsDouble(),
-                () -> turn.getAsDouble(), 
-                () -> theta.getAsDouble(),
-                isFieldRelative);
+    public Autonomous(SwerveSubsystem swerveSubsystem){
+        this.swerveSubsystem = swerveSubsystem;
+    }
 
-        });
+    public CommandBase auto(){
+        /*
+         * score piece
+         * move backward
+         * balance on charging station
+         */
+
+         return Commands.sequence(
+            swerveSubsystem.drive(() -> 2, () -> 0, () -> 0, false).withTimeout(2)
+            );
         
     }
+
+
 }

@@ -16,7 +16,7 @@ import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
 public class RobotContainer {
   CommandXboxController controller = new CommandXboxController(0);
 
-  Autonomous autonomous = new Autonomous();
+  
 
 
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem(
@@ -28,7 +28,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
   }
-  
+  Autonomous autonomous = new Autonomous(swerveSubsystem);
   public double deadband(double joystick){
     if(Math.abs(joystick) < 0.1){
       return 0;
@@ -46,11 +46,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autonomous.auto(
-      () -> 0.5,
-      () -> 0,
-      () -> 0,
-      true
-    );
+    return autonomous.auto();
   }
 }
