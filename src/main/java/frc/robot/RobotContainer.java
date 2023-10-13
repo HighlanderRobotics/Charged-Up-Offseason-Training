@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.Autonomous;
+import frc.robot.Subsystems.DrivebaseSubsystem.GyroModuleIOReal;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOReal;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOSim;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
@@ -23,7 +24,8 @@ public class RobotContainer {
     new SwerveModuleIOSim(), 
     new SwerveModuleIOSim(), 
     new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim());
+    new SwerveModuleIOSim(),
+    new GyroModuleIOReal(0));
 
   public RobotContainer() {
     configureBindings();

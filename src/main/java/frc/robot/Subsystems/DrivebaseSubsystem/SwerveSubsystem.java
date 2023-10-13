@@ -24,6 +24,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -43,6 +44,10 @@ public class SwerveSubsystem extends SubsystemBase {
     SwerveModuleIOInputsAutoLogged frontRightInputs;
     SwerveModuleIOInputsAutoLogged backLeftInputs;
     SwerveModuleIOInputsAutoLogged backRightInputs;
+
+    GyroModuleIOInputsAutoLogged gyroInputs;
+
+    GyroModuleIOReal gyro;
 
     double heading = 0.0;
 
@@ -82,15 +87,17 @@ public class SwerveSubsystem extends SubsystemBase {
             new SwerveModulePosition()
         }, pose);
     
-    public SwerveSubsystem(SwerveModuleIOSim frontLeftIo, SwerveModuleIOSim frontRightIo, SwerveModuleIOSim backLeftIo,SwerveModuleIOSim backRightIo){
+    public SwerveSubsystem(SwerveModuleIOSim frontLeftIo, SwerveModuleIOSim frontRightIo, SwerveModuleIOSim backLeftIo,SwerveModuleIOSim backRightIo, GyroModuleIOReal gyroIo){
         this.frontLeftIo = frontLeftIo;
         this.frontRightIo = frontRightIo;
         this.backLeftIo = backLeftIo;
         this.backRightIo = backRightIo;
+        this.gyro = gyroIo;
         frontLeftInputs = new SwerveModuleIOInputsAutoLogged();
         frontRightInputs = new SwerveModuleIOInputsAutoLogged();
         backLeftInputs = new SwerveModuleIOInputsAutoLogged();
         backRightInputs = new SwerveModuleIOInputsAutoLogged();
+        gyroInputs = new GyroModuleIOInputsAutoLogged();
     }
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
@@ -123,6 +130,34 @@ public class SwerveSubsystem extends SubsystemBase {
 
             
 
+        }, this);
+    }
+
+    public CommandBase balance(){
+        /*
+         * Set the chassis motor controllers to brake mode. This didn’t have much effect on the performance of our routine (since we used sysid on our drivetrain and controlled via speed, not percent power), but it helped quell questions from alliance partners.
+        Drive forward at 0.2m/s until we are at 10 degrees (or more) of pitch.
+        Drive forward 0.65m at 0.3m/s. This just helped us get close to the center faster.
+        Initialize bang-bang (ish) auto balancing:
+        a. If the angle is less than 3 degrees and the charge station is not moving, we exit the auto balance.
+        b. If the charge station is currently pitching, we stopped our drivetrain. This greatly helped us stop right when we got a sticky charge station to move. Note: We implemented a linear filter on the pitch velocity to help smooth out the response.
+        c. If the pitch is positive, drive forwards.
+        d. If the pitch is negative, drive backwards.
+        Stop for 3 seconds. This prevents any issues with joystick drift causing the default drive command to move the robot once it is balanced. We don’t have issues with teleop being stuck due to teleop automatically cancelling all auto commands.
+         */
+        return Commands.run(() -> {
+            if(gyroInputs.pitch < 4){
+                
+            }
+            else if(gyro.getAngularRate() > 0.05 || gyro.getAngularRate() < -0.05){
+                
+            }
+            else if(gyro.getPitch() > 0){
+                drive(() -> 0.25, () -> 0, () -> 0, false).until(() -> (gyro.getPitch() > 2 || gyro.getPitch() < -2));
+            }
+            else if(gyro.getPitch() < 0){
+
+            }
         }, this);
     }
  
