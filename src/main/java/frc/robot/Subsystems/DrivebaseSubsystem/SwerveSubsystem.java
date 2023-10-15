@@ -145,20 +145,16 @@ public class SwerveSubsystem extends SubsystemBase {
         d. If the pitch is negative, drive backwards.
         Stop for 3 seconds. This prevents any issues with joystick drift causing the default drive command to move the robot once it is balanced. We don’t have issues with teleop being stuck due to teleop automatically cancelling all auto commands.
          */
-        return Commands.run(() -> {
-            if(gyroInputs.pitch < 4){
-                
-            }
-            else if(gyro.getAngularRate() > 0.05 || gyro.getAngularRate() < -0.05){
-                
-            }
-            else if(gyro.getPitch() > 0){
-                drive(() -> 0.25, () -> 0, () -> 0, false).until(() -> (gyro.getPitch() > 2 || gyro.getPitch() < -2));
-            }
-            else if(gyro.getPitch() < 0){
-
-            }
-        }, this);
+        return Commands.either(
+            drive(() -> 0,() -> 0,() -> 0, true), 
+            Commands.either(
+                drive(() -> 0,() -> 0,() -> 0,true),
+                  Commands.either(
+                    drive(() -> 0.25, () -> 0, () -> 0, false).until(() -> (gyro.getPitch() > 2 || gyro.getPitch() < -2)),
+                    drive(() -> -0.25, () -> 0, () -> 0, false).until(() -> (gyro.getPitch() > 2 || gyro.getPitch() < -2))
+                    , () -> (gyro.getPitch() > 0)), 
+                  () -> (gyro.getAngularRate() > 0.05 || gyro.getAngularRate() < -0.05)), 
+            () -> ((Math.abs(gyroInputs.pitch) < 4)));
     }
  
     @Override

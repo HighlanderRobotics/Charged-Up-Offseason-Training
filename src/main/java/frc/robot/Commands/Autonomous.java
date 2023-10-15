@@ -29,7 +29,8 @@ public class Autonomous {
          */
 
          return Commands.sequence(
-            swerveSubsystem.drive(() -> 2, () -> 0, () -> 0, false).withTimeout(2)
+            swerveSubsystem.drive(() -> 2, () -> 0, () -> 0, false).withTimeout(2),
+            swerveSubsystem.balance()
             );
         
     }
