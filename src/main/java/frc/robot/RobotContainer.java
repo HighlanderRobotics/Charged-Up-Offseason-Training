@@ -48,6 +48,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autonomous.auto();
+    return autonomous.getAutoCommand();
   }
 }

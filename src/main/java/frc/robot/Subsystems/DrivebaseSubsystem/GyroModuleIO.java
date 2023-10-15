@@ -14,13 +14,10 @@ public interface GyroModuleIO {
         public double pitch = 0.0;
         public double yaw = 0.0;
         public double roll = 0.0;
+        public double angularRate = 0.0;
     }
 
-    public abstract double getPitch();
 
-    public abstract double getYaw();
 
-    public abstract double getRoll();
-
-    public abstract double getAngularRate();
+    public abstract GyroModuleIOInputsAutoLogged updateInputs();
 }

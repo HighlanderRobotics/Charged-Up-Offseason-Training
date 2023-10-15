@@ -14,42 +14,34 @@ public class GyroModuleIOReal implements GyroModuleIO{
     Pigeon2 gyro;
     StatusSignalValue statusSignal;
     Timestamp dTime;
-    double deltaPitch = getPitch();
+    double deltaPitch = gyro.getPitch().getValue();
     
     public GyroModuleIOReal(int gyroID){
         gyro = new Pigeon2(gyroID);
         statusSignal = new StatusSignalValue<>(null, null);
     }
-    @Override
-    public double getPitch() {
-        
-        return gyro.getPitch().getValue();
-    }
 
-    @Override
-    public double getYaw() {
-        
-        return gyro.getYaw().getValue();
-    }
-
-    @Override
-    public double getRoll() {
-        
-        return gyro.getRoll().getValue();
-    }
-    @Override
-    public double getAngularRate() {
+    private double getAngularRate() {
         double slope = 0.0;
         if(dTime.getTime() != statusSignal.getTimestamp().getTime()){
-            slope = (getPitch() - deltaPitch) / (statusSignal.getTimestamp().getTime() - dTime.getTime());
+            slope = (gyro.getPitch().getValue() - deltaPitch) / (statusSignal.getTimestamp().getTime() - dTime.getTime());
 
             dTime = statusSignal.getTimestamp();
-            deltaPitch = getPitch();
+            deltaPitch = gyro.getPitch().getValue();
         }
         
         
         
         return slope;
+    }
+    @Override
+    public GyroModuleIOInputsAutoLogged updateInputs() {
+        GyroModuleIOInputsAutoLogged inputs = new GyroModuleIOInputsAutoLogged();
+        inputs.pitch = gyro.getPitch().getValue();
+        inputs.roll = gyro.getRoll().getValue();
+        inputs.yaw = gyro.getYaw().getValue();
+        inputs.angularRate = getAngularRate();
+        return inputs;
     }}
 
     

@@ -6,6 +6,8 @@ package frc.robot.Commands;
 
 import java.util.function.DoubleSupplier;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -15,13 +17,21 @@ import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
 
 /** Add your docs here. */
 public class Autonomous {
+    
     SwerveSubsystem swerveSubsystem;
+    LoggedDashboardChooser<Command> autoSystemType =
+    new LoggedDashboardChooser<>("Auto System Type");
 
     public Autonomous(SwerveSubsystem swerveSubsystem){
         this.swerveSubsystem = swerveSubsystem;
+        autoSystemType.addDefaultOption("Balance", chargeStation());
+    }
+    
+    public Command getAutoCommand(){
+        return autoSystemType.get();
     }
 
-    public CommandBase auto(){
+    public CommandBase chargeStation(){
         /*
          * score piece
          * move backward
@@ -29,7 +39,7 @@ public class Autonomous {
          */
 
          return Commands.sequence(
-            swerveSubsystem.drive(() -> 2, () -> 0, () -> 0, false).withTimeout(2),
+            swerveSubsystem.drive(() -> -2, () -> 0, () -> 0, false).withTimeout(2),
             swerveSubsystem.balance()
             );
         

@@ -132,28 +132,31 @@ public class SwerveSubsystem extends SubsystemBase {
 
         }, this);
     }
-
+    
     public CommandBase balance(){
         /*
          * Set the chassis motor controllers to brake mode. This didn’t have much effect on the performance of our routine (since we used sysid on our drivetrain and controlled via speed, not percent power), but it helped quell questions from alliance partners.
         Drive forward at 0.2m/s until we are at 10 degrees (or more) of pitch.
         Drive forward 0.65m at 0.3m/s. This just helped us get close to the center faster.
         Initialize bang-bang (ish) auto balancing:
-        a. If the angle is less than 3 degrees and the charge station is not moving, we exit the auto balance.
-        b. If the charge station is currently pitching, we stopped our drivetrain. This greatly helped us stop right when we got a sticky charge station to move. Note: We implemented a linear filter on the pitch velocity to help smooth out the response.
-        c. If the pitch is positive, drive forwards.
-        d. If the pitch is negative, drive backwards.
+        a. 
+        b. 
+        c. 
         Stop for 3 seconds. This prevents any issues with joystick drift causing the default drive command to move the robot once it is balanced. We don’t have issues with teleop being stuck due to teleop automatically cancelling all auto commands.
          */
         return Commands.either(
             drive(() -> 0,() -> 0,() -> 0, true), 
+            // If the angle is less than 3 degrees and the charge station is not moving, don't move.
             Commands.either(
                 drive(() -> 0,() -> 0,() -> 0,true),
+                // If the charge station is currently pitching, stop thr drivetrain.
                   Commands.either(
-                    drive(() -> 0.25, () -> 0, () -> 0, false).until(() -> (gyro.getPitch() > 2 || gyro.getPitch() < -2)),
-                    drive(() -> -0.25, () -> 0, () -> 0, false).until(() -> (gyro.getPitch() > 2 || gyro.getPitch() < -2))
-                    , () -> (gyro.getPitch() > 0)), 
-                  () -> (gyro.getAngularRate() > 0.05 || gyro.getAngularRate() < -0.05)), 
+                    drive(() -> -0.25, () -> 0, () -> 0, false).until(() -> (gyroInputs.pitch > 2 || gyroInputs.pitch < -2)),
+                    drive(() -> 0.25, () -> 0, () -> 0, false).until(() -> (gyroInputs.pitch > 2 || gyroInputs.pitch < -2))
+                    // If the pitch is positive, drive forwards.
+                    // If the pitch is negative, drive backwards.
+                    , () -> (gyroInputs.pitch > 0)), 
+                  () -> (gyroInputs.angularRate > 0.05 || gyroInputs.angularRate < -0.05)), 
             () -> ((Math.abs(gyroInputs.pitch) < 4)));
     }
  
@@ -164,11 +167,13 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRightInputs = frontRightIo.updateInputs();
         backLeftInputs = backLeftIo.updateInputs();
         backRightInputs = backRightIo.updateInputs();
+        gyroInputs = gyro.updateInputs();
         
         Logger.getInstance().processInputs("Front Left Swerve", frontLeftInputs);
         Logger.getInstance().processInputs("Front Right Swerve", frontRightInputs);
         Logger.getInstance().processInputs("Back Left Swerve", backLeftInputs);
         Logger.getInstance().processInputs("Back Right Swerve", backRightInputs);
+        Logger.getInstance().processInputs("Gyro", gyroInputs);
         Logger.getInstance().recordOutput("Pose", pose);
 
 
