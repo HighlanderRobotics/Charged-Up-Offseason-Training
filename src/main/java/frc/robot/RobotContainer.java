@@ -25,7 +25,7 @@ public class RobotContainer {
     new SwerveModuleIOSim(), 
     new SwerveModuleIOSim(), 
     new SwerveModuleIOSim(),
-    new GyroModuleIOReal(0));
+    new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
 
   public RobotContainer() {
     configureBindings();
