@@ -39,9 +39,8 @@ public class RobotContainer {
     Robot.isReal() ? new SwerveModuleIOReal(
       Constants.MOTOR_ID_BACK_RIGHT_ROTATION, 
       Constants.MOTOR_ID_BACK_RIGHT_DRIVE, 
-      Constants.ENCODER_ID_BACK_RIGHT) : new SwerveModuleIOSim());
-  
-      new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
+      Constants.ENCODER_ID_BACK_RIGHT) : new SwerveModuleIOSim(),
+    new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
 
 
   public RobotContainer() {
