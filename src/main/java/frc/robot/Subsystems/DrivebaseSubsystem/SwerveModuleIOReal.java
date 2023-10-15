@@ -11,6 +11,7 @@ import com.ctre.phoenixpro.controls.NeutralOut;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.controls.VoltageOut;
+import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
 
@@ -24,6 +25,8 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     TalonFX swerveMotor;
     TalonFX driveMotor;
 
+    CANcoder encoder;
+
     VoltageOut swerveVoltage = new VoltageOut(0);
     VoltageOut driveVoltage = new VoltageOut(0);
 
@@ -31,14 +34,16 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     PositionVoltage swerveRequest = new PositionVoltage(0);
     VelocityVoltage driveRequest = new VelocityVoltage(0);
     
-    public SwerveModuleIOReal(int swerveID, int driveID){
+    public SwerveModuleIOReal(int swerveID, int driveID, int encoderID){
         swerveMotor = new TalonFX(swerveID);
         driveMotor = new TalonFX(driveID);
+        encoder = new CANcoder(encoderID);
         TalonFXConfiguration driveConfig  = new TalonFXConfiguration();
         
         driveMotor.getConfigurator().apply(driveConfig);
        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
         swerveMotor.getConfigurator().apply(new TalonFXConfiguration());
+        resetEncoder();
     }
 
     @Override
@@ -87,5 +92,10 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         swerveMotor.setControl(swerveRequest.withPosition(rotation * Constants.ROTATION_GEAR_RATIO)); // adjust rotations for gear ratio
         driveMotor.setControl(driveVoltage.withOutput(driveVoltage2 * Constants.DRIVE_GEAR_RATIO)); // adjust rotations for gear ratio
         
+    }
+
+    @Override
+    public void resetEncoder(){
+        swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue() + Constants.ENCODER_OFFSET) * Constants.ROTATION_GEAR_RATIO);
     }
 }

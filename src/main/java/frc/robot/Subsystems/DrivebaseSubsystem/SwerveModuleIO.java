@@ -40,4 +40,6 @@ public interface SwerveModuleIO {
     public abstract void setDrive(double rotation, double driveMPS);
 
     public abstract void setDriveVoltage(double rotation, double driveVoltage);
+
+    public abstract void resetEncoder();
 }
