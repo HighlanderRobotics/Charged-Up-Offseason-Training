@@ -15,6 +15,9 @@ import frc.robot.Subsystems.DrivebaseSubsystem.GyroModuleIOReal;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOReal;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOSim;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
+import frc.robot.Subsystems.Intake.IntakeIO;
+import frc.robot.Subsystems.Intake.IntakeIOReal;
+import frc.robot.Subsystems.Intake.IntakeSubsystem;
 
 public class RobotContainer {
   CommandXboxController controller = new CommandXboxController(0);
@@ -42,11 +45,11 @@ public class RobotContainer {
       Constants.ENCODER_ID_BACK_RIGHT) : new SwerveModuleIOSim(),
     new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
 
-
+  IntakeSubsystem intakeSubsystem = new IntakeSubsystem(new IntakeIOReal());
   public RobotContainer() {
     configureBindings();
   }
-  Autonomous autonomous = new Autonomous(swerveSubsystem);
+  Autonomous autonomous = new Autonomous(swerveSubsystem,intakeSubsystem);
   public double deadband(double joystick){
     if(Math.abs(joystick) < 0.1){
       return 0;

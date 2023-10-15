@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase{
         }, this);
     }
 
-    public CommandBase out() {
+    public CommandBase outtake() {
         return new RunCommand(() -> {
             io.out();
         }, this);
