@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 import com.ctre.phoenixpro.controls.VelocityVoltage;
+import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -35,10 +36,10 @@ import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIO.SwerveModuleIOInpu
 public class SwerveSubsystem extends SubsystemBase {
 
 
-    SwerveModuleIOSim frontLeftIo;
-    SwerveModuleIOSim frontRightIo;
-    SwerveModuleIOSim backLeftIo;
-    SwerveModuleIOSim backRightIo;
+    SwerveModuleIO frontLeftIo;
+    SwerveModuleIO frontRightIo;
+    SwerveModuleIO backLeftIo;
+    SwerveModuleIO backRightIo;
 
     SwerveModuleIOInputsAutoLogged frontLeftInputs;
     SwerveModuleIOInputsAutoLogged frontRightInputs;
@@ -50,6 +51,8 @@ public class SwerveSubsystem extends SubsystemBase {
     GyroModuleIOReal gyro;
 
     double heading = 0.0;
+
+    CANcoder encoder;
 
     
 
@@ -87,7 +90,11 @@ public class SwerveSubsystem extends SubsystemBase {
             new SwerveModulePosition()
         }, pose);
     
-    public SwerveSubsystem(SwerveModuleIOSim frontLeftIo, SwerveModuleIOSim frontRightIo, SwerveModuleIOSim backLeftIo,SwerveModuleIOSim backRightIo, GyroModuleIOReal gyroIo){
+
+
+
+    public SwerveSubsystem(SwerveModuleIO frontLeftIo, SwerveModuleIO frontRightIo, SwerveModuleIO backLeftIo,SwerveModuleIO backRightIo, GyroModuleIOReal gyroIo){
+
         this.frontLeftIo = frontLeftIo;
         this.frontRightIo = frontRightIo;
         this.backLeftIo = backLeftIo;

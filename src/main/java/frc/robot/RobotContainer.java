@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenixpro.hardware.CANcoder;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -21,11 +23,26 @@ public class RobotContainer {
 
 
   SwerveSubsystem swerveSubsystem = new SwerveSubsystem(
-    new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim(), 
-    new SwerveModuleIOSim(),
-    new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
+
+    Robot.isReal() ? new SwerveModuleIOReal(
+      Constants.MOTOR_ID_FRONT_LEFT_ROTATION,
+      Constants.MOTOR_ID_FRONT_LEFT_DRIVE,
+      Constants.ENCODER_ID_FRONT_LEFT) : new SwerveModuleIOSim(), 
+    Robot.isReal() ? new SwerveModuleIOReal(
+      Constants.MOTOR_ID_FRONT_RIGHT_ROTATION, 
+      Constants.MOTOR_ID_FRONT_RIGHT_DRIVE, 
+      Constants.ENCODER_ID_FRONT_RIGHT) : new SwerveModuleIOSim(), 
+    Robot.isReal() ? new SwerveModuleIOReal(
+      Constants.MOTOR_ID_BACK_LEFT_ROTATION, 
+      Constants.MOTOR_ID_BACK_LEFT_DRIVE, 
+      Constants.ENCODER_ID_BACK_LEFT) : new SwerveModuleIOSim(), 
+    Robot.isReal() ? new SwerveModuleIOReal(
+      Constants.MOTOR_ID_BACK_RIGHT_ROTATION, 
+      Constants.MOTOR_ID_BACK_RIGHT_DRIVE, 
+      Constants.ENCODER_ID_BACK_RIGHT) : new SwerveModuleIOSim());
+  
+      new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
+
 
   public RobotContainer() {
     configureBindings();
