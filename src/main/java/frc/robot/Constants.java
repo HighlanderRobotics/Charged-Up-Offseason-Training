@@ -35,6 +35,7 @@ public class Constants {
 
     public static final double ENCODER_OFFSET = 0;
 
+    public static final int INTAKE_SUBSYSTEM_ID = 9;
 
     // Locations for the swerve drive modules relative to the robot center.
     // Copied from documentation
