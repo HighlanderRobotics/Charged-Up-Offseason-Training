@@ -42,7 +42,7 @@ public class Autonomous {
          */
 
          return Commands.sequence(
-            intakeSubsystem.outtake().withTimeout(2),
+            intakeSubsystem.outtake(),
             swerveSubsystem.drive(() -> -2, () -> 0, () -> 0, false).withTimeout(2),
             swerveSubsystem.balance()
             );

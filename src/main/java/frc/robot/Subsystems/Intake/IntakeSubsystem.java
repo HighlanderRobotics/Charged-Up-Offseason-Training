@@ -23,13 +23,13 @@ public class IntakeSubsystem extends SubsystemBase{
     public CommandBase intake() {
         return new RunCommand(() -> {
             io.in();
-        }, this);
+        }, this).withTimeout(2);
     }
 
     public CommandBase outtake() {
         return new RunCommand(() -> {
             io.out();
-        }, this);
+        }, this).withTimeout(2);
     }
 
     @Override

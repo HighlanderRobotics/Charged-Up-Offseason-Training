@@ -24,7 +24,7 @@ public class PivotIOSim implements PivotIO {
 
         // var motorSimState = motor.getSimState();
 
-        input.velocityRPM = arm.getVelocityRadPerSec() * 60;
+        input.velocityRadPerMin = arm.getVelocityRadPerSec() * 60;
         input.currentDrawAmps = arm.getCurrentDrawAmps();
         input.temperatureCelsius = 0;
         input.motorOutputVolts = arm.getOutput(0);
