@@ -8,6 +8,8 @@ import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -16,18 +18,20 @@ import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOSim;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 
+
 /** Add your docs here. */
 public class Autonomous {
     
     SwerveSubsystem swerveSubsystem;
     IntakeSubsystem intakeSubsystem;
-    LoggedDashboardChooser<Command> autoSystemType =
-    new LoggedDashboardChooser<>("Auto System Type");
+    LoggedDashboardChooser<Command> autoSystemType = new LoggedDashboardChooser<>("Auto System Type");
+
+    PathPlannerAuto testAuto = new PathPlannerAuto("test");
 
     public Autonomous(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem){
         this.swerveSubsystem = swerveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
-        autoSystemType.addDefaultOption("Balance", chargeStation());
+        autoSystemType.addDefaultOption("One Pice",  testAuto);
     }
     
     public Command getAutoCommand(){

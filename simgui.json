@@ -30,7 +30,8 @@
       "/LiveWindow/Ungrouped/Talon FX (Pro) [4]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX (Pro) [5]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX (Pro) [6]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX (Pro) [7]": "Motor Controller"
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [7]": "Motor Controller",
+      "/SmartDashboard/Auto System Type": "String Chooser"
     }
   },
   "NetworkTables": {

@@ -13,6 +13,8 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -48,7 +50,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     GyroModuleIOInputsAutoLogged gyroInputs;
 
-    GyroModuleIOReal gyro;
+    GyroModuleIO gyro;
 
     double heading = 0.0;
 
@@ -93,7 +95,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
 
-    public SwerveSubsystem(SwerveModuleIO frontLeftIo, SwerveModuleIO frontRightIo, SwerveModuleIO backLeftIo,SwerveModuleIO backRightIo, GyroModuleIOReal gyroIo){
+    public SwerveSubsystem(SwerveModuleIO frontLeftIo, SwerveModuleIO frontRightIo, SwerveModuleIO backLeftIo,SwerveModuleIO backRightIo, GyroModuleIO gyroIo){
 
         this.frontLeftIo = frontLeftIo;
         this.frontRightIo = frontRightIo;
@@ -105,7 +107,52 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeftInputs = new SwerveModuleIOInputsAutoLogged();
         backRightInputs = new SwerveModuleIOInputsAutoLogged();
         gyroInputs = new GyroModuleIOInputsAutoLogged();
+
+        AutoBuilder.configureLTV(
+        this::getPose, // Robot pose supplier
+        this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getCurrentSpeeds, // Current ChassisSpeeds supplier
+        this::drive, // Method that will drive the robot given ChassisSpeeds
+        0.02, // Robot control loop period in seconds. Default is 0.02
+        new ReplanningConfig(), // Default path replanning config. See the API for the options here
+        this // Reference to this subsystem to set requirements
+    );
     }
+
+    public ChassisSpeeds getCurrentSpeeds(){
+        return ChassisSpeeds.fromFieldRelativeSpeeds(speeds, odometry.getPoseMeters().getRotation().plus(
+            Rotation2d.fromDegrees(DriverStation.getAlliance() == Alliance.Red ? 180 : 0)
+            ));
+    }
+    
+    public CommandBase drive(ChassisSpeeds speeds){
+        return drive(() -> speeds.vxMetersPerSecond, () -> speeds.vyMetersPerSecond, () -> speeds.omegaRadiansPerSecond, true);
+    }
+
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
+    }
+    private void resetEncoders() {
+    frontLeftIo.resetEncoder();
+    frontRightIo.resetEncoder();
+    backLeftIo.resetEncoder();
+    backRightIo.resetEncoder();
+
+    }
+    public void resetOdometry(Pose2d pose) {
+        resetEncoders();
+        odometry.resetPosition(
+            new Rotation2d(gyroInputs.pitch), 
+            new SwerveModulePosition[] {
+                new SwerveModulePosition(frontLeftInputs.drivePositionMeters,frontLeft.angle),
+                new SwerveModulePosition(frontRightInputs.drivePositionMeters,frontRight.angle),
+                new SwerveModulePosition(backLeftInputs.drivePositionMeters,backLeft.angle),
+                new SwerveModulePosition(backRightInputs.drivePositionMeters,backRight.angle)
+        }, pose);
+      }
+
+    
+    
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
         return new RunCommand(() -> {
