@@ -5,6 +5,7 @@
 package frc.robot.Commands;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -24,18 +25,16 @@ public class Autonomous {
     
     SwerveSubsystem swerveSubsystem;
     IntakeSubsystem intakeSubsystem;
-    LoggedDashboardChooser<Command> autoSystemType = new LoggedDashboardChooser<>("Auto System Type");
-
-    PathPlannerAuto testAuto = new PathPlannerAuto("test");
+    LoggedDashboardChooser<Supplier<Command>> autoSystemType = new LoggedDashboardChooser<>("Auto System Type");
 
     public Autonomous(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem){
         this.swerveSubsystem = swerveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
-        autoSystemType.addDefaultOption("One Pice",  testAuto);
+        autoSystemType.addDefaultOption("One Pice", () -> new PathPlannerAuto("test"));
     }
     
     public Command getAutoCommand(){
-        return autoSystemType.get();
+        return autoSystemType.get().get();
     }
 
     public CommandBase chargeStation(){
