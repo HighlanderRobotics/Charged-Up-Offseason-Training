@@ -12,13 +12,15 @@ import com.ctre.phoenixpro.hardware.Pigeon2;
 /** Add your docs here. */
 public class GyroModuleIOReal implements GyroModuleIO{
     Pigeon2 gyro;
-    StatusSignalValue statusSignal;
+    StatusSignalValue<Double> statusSignal;
     Timestamp dTime;
-    double deltaPitch = gyro.getPitch().getValue();
+    double deltaPitch;
     
     public GyroModuleIOReal(int gyroID){
         gyro = new Pigeon2(gyroID);
-        statusSignal = new StatusSignalValue<>(null, null);
+        statusSignal = gyro.getPitch();
+        dTime = statusSignal.getTimestamp();
+        deltaPitch = 0;
     }
 
     private double getAngularRate() {

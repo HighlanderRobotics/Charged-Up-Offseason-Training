@@ -108,7 +108,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
-        return new RunCommand(() -> {
+        return this.run(() -> {
             speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), theta.getAsDouble());
          if(isFieldRelative){
             
@@ -130,14 +130,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
         
 
-            frontLeftIo.setDrive(frontLeft.angle.getDegrees(), frontLeft.speedMetersPerSecond);
-            frontRightIo.setDrive(frontRight.angle.getDegrees(), frontRight.speedMetersPerSecond);
-            backLeftIo.setDrive(backLeft.angle.getDegrees(), backLeft.speedMetersPerSecond);
-            backRightIo.setDrive(backRight.angle.getDegrees(), backRight.speedMetersPerSecond);
-
+            frontLeftIo.setDriveVoltage(frontLeft.angle.getDegrees(), frontLeft.speedMetersPerSecond);
+            frontRightIo.setDriveVoltage(frontRight.angle.getDegrees(), frontRight.speedMetersPerSecond);
+            backLeftIo.setDriveVoltage(backLeft.angle.getDegrees(), backLeft.speedMetersPerSecond);
+            backRightIo.setDriveVoltage(backRight.angle.getDegrees(), backRight.speedMetersPerSecond);
+            
             
 
-        }, this);
+        });
     }
     
     public CommandBase balance(){

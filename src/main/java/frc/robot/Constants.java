@@ -11,31 +11,32 @@ import edu.wpi.first.math.util.Units;
 public class Constants {
     public static final double DRIVEBASE_MAX_SPEED_FPS = Units.feetToMeters(16);
 
-    public static final int MOTOR_ID_FRONT_LEFT_DRIVE = 0;
-    public static final int MOTOR_ID_FRONT_LEFT_ROTATION = 1;
-    public static final int ENCODER_ID_FRONT_LEFT = 0;
+    public static final int MOTOR_ID_FRONT_LEFT_DRIVE = 6;
+    public static final int MOTOR_ID_FRONT_LEFT_ROTATION = 5;
+    public static final int ENCODER_ID_FRONT_LEFT = 21;
 
-    public static final int MOTOR_ID_FRONT_RIGHT_DRIVE = 2;
-    public static final int MOTOR_ID_FRONT_RIGHT_ROTATION = 3;
-    public static final int ENCODER_ID_FRONT_RIGHT = 0;
+    public static final int MOTOR_ID_FRONT_RIGHT_DRIVE = 8;
+    public static final int MOTOR_ID_FRONT_RIGHT_ROTATION = 7;
+    public static final int ENCODER_ID_FRONT_RIGHT = 23;
 
     public static final int MOTOR_ID_BACK_LEFT_DRIVE = 4;
-    public static final int MOTOR_ID_BACK_LEFT_ROTATION = 5;
-    public static final int ENCODER_ID_BACK_LEFT = 0;
+    public static final int MOTOR_ID_BACK_LEFT_ROTATION = 3;
+    public static final int ENCODER_ID_BACK_LEFT = 20;
 
-    public static final int MOTOR_ID_BACK_RIGHT_DRIVE = 6;
-    public static final int MOTOR_ID_BACK_RIGHT_ROTATION = 7;
-    public static final int ENCODER_ID_BACK_RIGHT = 0;
+    public static final int MOTOR_ID_BACK_RIGHT_DRIVE = 2;
+    public static final int MOTOR_ID_BACK_RIGHT_ROTATION = 1;
+    public static final int ENCODER_ID_BACK_RIGHT = 11;
 
     public static final double ROTATION_GEAR_RATIO = 12.8;
     public static final double DRIVE_GEAR_RATIO = 6.86;
 
 
-    public static final int GYRO_MODULE_ID = 8;
+    public static final int GYRO_MODULE_ID = 0;
 
-    public static final double ENCODER_OFFSET = 0;
+    public static final double ENCODER_OFFSET = 0.0;
 
-    public static final int INTAKE_SUBSYSTEM_ID = 9;
+    public static final int INTAKE_SUBSYSTEM_ID = 27;
+    public static final int ARM_PIVOT_ID = 16;
 
     // Locations for the swerve drive modules relative to the robot center.
     // Copied from documentation

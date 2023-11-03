@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems.DrivebaseSubsystem;
 
+import com.ctre.phoenixpro.StatusSignalValue;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 import com.ctre.phoenixpro.controls.ControlRequest;
@@ -25,6 +26,9 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     TalonFX swerveMotor;
     TalonFX driveMotor;
 
+    StatusSignalValue<Double> swerveSignal;
+    StatusSignalValue<Double> driveSignal;
+
     CANcoder encoder;
 
     VoltageOut swerveVoltage = new VoltageOut(0);
@@ -38,11 +42,16 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         swerveMotor = new TalonFX(swerveID);
         driveMotor = new TalonFX(driveID);
         encoder = new CANcoder(encoderID);
-        TalonFXConfiguration driveConfig  = new TalonFXConfiguration();
+
         
+
+        TalonFXConfiguration driveConfig  = new TalonFXConfiguration();
+        TalonFXConfiguration turnConfig = new TalonFXConfiguration();
+        turnConfig.Slot0.kP = 1;
+        turnConfig.Slot0.kD = 0;
         driveMotor.getConfigurator().apply(driveConfig);
        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
-        swerveMotor.getConfigurator().apply(new TalonFXConfiguration());
+        swerveMotor.getConfigurator().apply(turnConfig);
         resetEncoder();
     }
 
@@ -50,23 +59,22 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     public SwerveModuleIOInputsAutoLogged updateInputs() {
 
         SwerveModuleIOInputsAutoLogged inputs = new SwerveModuleIOInputsAutoLogged();
-        var swerveSimState = swerveMotor.getSimState();
-        var driveSimState = driveMotor.getSimState();
-        swerveSimState.setSupplyVoltage(RoboRioSim.getVInVoltage());
-        driveSimState.setSupplyVoltage(RoboRioSim.getVInVoltage());
-        inputs.swerveOutputVolts = swerveSimState.getMotorVoltage();
-        inputs.driveOutputVolts = driveSimState.getMotorVoltage();
+        swerveSignal = swerveMotor.getSupplyVoltage();
+        driveSignal = driveMotor.getSupplyVoltage();
+        inputs.swerveOutputVolts = swerveSignal.getValue();
+        inputs.driveOutputVolts = driveSignal.getValue();
     
         inputs.swerveVelocityMetersPerSecond = 0.0;
         inputs.driveVelocityMetersPerSecond = 0.0;
-    
-        inputs.swerveRotationRadians = 0.0;
+        swerveSignal = swerveMotor.getRotorPosition();
+        inputs.swerveRotationRadians = swerveSignal.getValue();
         inputs.drivePositionMeters = (driveMotor.getPosition().getValue() / 6.86 ) * (4 * Math.PI); // 6.86 to adjust for gear ratio, and then multiply by circumfrence
-        
+        /*
         inputs.swerveCurrentAmps = new double[] {swerveSimState.getTorqueCurrent()};
         inputs.swerveTempCelsius = new double[0];
         inputs.driveCurrentAmps = new double[] {driveSimState.getTorqueCurrent()};
         inputs.driveTempCelsius = new double[0];
+        */
 
         return inputs;
        

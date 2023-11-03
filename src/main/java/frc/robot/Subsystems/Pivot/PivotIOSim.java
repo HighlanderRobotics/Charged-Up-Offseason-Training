@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 /** Add your docs here. */
 public class PivotIOSim implements PivotIO {
-    private final TalonFX motor = new TalonFX(0);
+    
     SingleJointedArmSim arm = new SingleJointedArmSim(DCMotor.getFalcon500(1), 27 * (24 / 18),
             SingleJointedArmSim.estimateMOI(Units.inchesToMeters(30), 3), Units.inchesToMeters(30), 0, 3.5, true);
     PIDController pid = new PIDController(1, 0, 0);
