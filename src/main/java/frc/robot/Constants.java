@@ -37,6 +37,8 @@ public class Constants {
 
     public static final int INTAKE_SUBSYSTEM_ID = 9;
 
+    private static final double gearRatio = 1;
+
     // Locations for the swerve drive modules relative to the robot center.
     // Copied from documentation
     public static final Translation2d FRONT_LEFT_LOCATION = new Translation2d(0.381, 0.381);

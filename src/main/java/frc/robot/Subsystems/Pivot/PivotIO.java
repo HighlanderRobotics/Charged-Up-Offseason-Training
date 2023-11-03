@@ -21,7 +21,10 @@ public interface PivotIO {
 
     }
 
+
     public abstract void setPosition(double degrees);
+    public abstract void reset(double degrees);
+    
 
     public abstract PivotIOInputsAutoLogged updateInputs();
 
