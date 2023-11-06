@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.hardware.CANcoder;
@@ -24,6 +25,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -54,6 +57,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     CANcoder encoder;
 
+    
     
 
     // Creating kinematics object using the module locations
@@ -105,6 +109,9 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeftInputs = new SwerveModuleIOInputsAutoLogged();
         backRightInputs = new SwerveModuleIOInputsAutoLogged();
         gyroInputs = new GyroModuleIOInputsAutoLogged();
+
+        SmartDashboard.putData("drive zero", drive(() -> 0.0, () -> 0.0, () -> 0.0, true));
+        SmartDashboard.putData("drive forward 0.5", drive(() -> 0.5, () -> 0.0, () -> 0.0, true));
     }
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
@@ -130,15 +137,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
         
 
-            frontLeftIo.setDriveVoltage(frontLeft.angle.getDegrees(), frontLeft.speedMetersPerSecond);
-            frontRightIo.setDriveVoltage(frontRight.angle.getDegrees(), frontRight.speedMetersPerSecond);
-            backLeftIo.setDriveVoltage(backLeft.angle.getDegrees(), backLeft.speedMetersPerSecond);
-            backRightIo.setDriveVoltage(backRight.angle.getDegrees(), backRight.speedMetersPerSecond);
+            frontLeftIo.setDrive(frontLeft.angle, frontLeft.speedMetersPerSecond); 
+            frontRightIo.setDrive(frontRight.angle, frontRight.speedMetersPerSecond); 
+            backLeftIo.setDrive(backLeft.angle, backLeft.speedMetersPerSecond); 
+            backRightIo.setDrive(backRight.angle, backRight.speedMetersPerSecond); 
             
             
 
         });
     }
+
+
     
     public CommandBase balance(){
         /*

@@ -16,6 +16,7 @@ import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import frc.robot.Constants;
@@ -47,8 +48,16 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
         TalonFXConfiguration driveConfig  = new TalonFXConfiguration();
         TalonFXConfiguration turnConfig = new TalonFXConfiguration();
-        turnConfig.Slot0.kP = 1;
+        
+        turnConfig.Slot0.kP = 0.2;
         turnConfig.Slot0.kD = 0;
+        turnConfig.Slot0.kI = 0;
+
+        driveConfig.Slot0.kP = 0.05;
+        driveConfig.Slot0.kD = 0;
+        driveConfig.Slot0.kI = 0;
+        
+
         driveMotor.getConfigurator().apply(driveConfig);
        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
         swerveMotor.getConfigurator().apply(turnConfig);
@@ -87,10 +96,12 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     
 
     @Override
-    public void setDrive(double rotation, double position) {
+    public void setDrive(Rotation2d rotation, double position) {
         
+        swerveRequest.Slot = 0;
+        driveRequest.Slot = 0;
 
-        swerveMotor.setControl(swerveRequest.withPosition(rotation * Constants.ROTATION_GEAR_RATIO)); // adjust rotations for gear ratio
+        swerveMotor.setControl(swerveRequest.withPosition(rotation.getRotations() * Constants.ROTATION_GEAR_RATIO)); // adjust rotations for gear ratio
         driveMotor.setControl(driveRequest.withVelocity(position * Constants.DRIVE_GEAR_RATIO)); // adjust rotations for gear ratio
 
     }

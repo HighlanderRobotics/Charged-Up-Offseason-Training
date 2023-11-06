@@ -13,6 +13,7 @@ import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.controls.VoltageOut;
 import com.ctre.phoenixpro.hardware.TalonFX;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 
@@ -60,11 +61,11 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     
 
     @Override
-    public void setDrive(double rotation, double position) {
+    public void setDrive(Rotation2d rotation, double position) {
         
 
         lastPosition += position * 0.02;
-        lastRotation += rotation * 0.02;
+      //  lastRotation += rotation * 0.02;
 
     }
 
