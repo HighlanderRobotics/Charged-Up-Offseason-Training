@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenixpro.hardware.TalonFX;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -37,7 +39,9 @@ public class Constants {
 
     public static final int INTAKE_SUBSYSTEM_ID = 9;
 
-    private static final double gearRatio = 1;
+    public static final double PIVOT_GEAR_RATIO = (27.0 / 1) * (48.0 / 22);
+    public static final TalonFX PIVOT_MOTOR = new TalonFX(0);
+
 
     // Locations for the swerve drive modules relative to the robot center.
     // Copied from documentation
