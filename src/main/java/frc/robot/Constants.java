@@ -40,7 +40,7 @@ public class Constants {
     public static final int INTAKE_SUBSYSTEM_ID = 9;
 
     public static final double PIVOT_GEAR_RATIO = (27.0 / 1) * (48.0 / 22);
-    public static final TalonFX PIVOT_MOTOR = new TalonFX(0);
+    public static final int PIVOT_MOTOR_ID = 10;
 
 
     // Locations for the swerve drive modules relative to the robot center.
@@ -49,5 +49,4 @@ public class Constants {
     public static final Translation2d FRONT_RIGHT_LOCATION = new Translation2d(0.381, -0.381);
     public static final Translation2d BACK_LEFT_LOCATION = new Translation2d(-0.381, 0.381);
     public static final Translation2d BACK_RIGHT_LOCATION = new Translation2d(-0.381, -0.381);
-
 }

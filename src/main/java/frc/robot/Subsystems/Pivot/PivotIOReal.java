@@ -14,20 +14,21 @@ import frc.robot.Constants;
 
 public class PivotIOReal implements PivotIO{
 
-    private static final StatusSignalValue<Double> supplyVoltageSignal = null;
-    private final PositionVoltage motorRequest = new PositionVoltage(0);
-    private StatusSignalValue<Double> position = Constants.PIVOT_MOTOR.getRotorPosition();
-    private StatusSignalValue<Double> velocity = Constants.PIVOT_MOTOR.getRotorVelocity();
-    private StatusSignalValue<Double> currentDraw = Constants.PIVOT_MOTOR.getStatorCurrent();
+    public static final TalonFX pivotMotor = new TalonFX(Constants.PIVOT_MOTOR_ID);
+    private StatusSignalValue<Double> supplyVoltageSignal = pivotMotor.getDutyCycle();
+    private PositionVoltage motorRequest = new PositionVoltage(0);
+    private StatusSignalValue<Double> position = pivotMotor.getRotorPosition();
+    private StatusSignalValue<Double> velocity = pivotMotor.getRotorVelocity();
+    private StatusSignalValue<Double> currentDraw = pivotMotor.getStatorCurrent();
 
     @Override
     public void setPosition(double degrees) {
-        Constants.PIVOT_MOTOR.setControl(motorRequest.withPosition(Units.degreesToRotations(degrees)*Constants.PIVOT_GEAR_RATIO));    
+        pivotMotor.setControl(motorRequest.withPosition(Units.degreesToRotations(degrees)*Constants.PIVOT_GEAR_RATIO));    
     }
 
     @Override
     public void reset(double degrees){ 
-        Constants.PIVOT_MOTOR.setRotorPosition((Units.degreesToRotations(degrees))*Constants.PIVOT_GEAR_RATIO);
+        pivotMotor.setRotorPosition((Units.degreesToRotations(degrees))*Constants.PIVOT_GEAR_RATIO);
     }
    
 
@@ -35,6 +36,12 @@ public class PivotIOReal implements PivotIO{
     public PivotIOInputsAutoLogged updateInputs() {
         // TODO Auto-generated method stub
         PivotIOInputsAutoLogged current = new PivotIOInputsAutoLogged();
-        double supplyVoltage = supplyVoltageSignal.getValue();
+
+        current.currentDrawAmps = currentDraw.getValue();
+        current.positionDegrees = position.getValue();
+        current.velocityRPM = velocity.getValue();
+        current.motorOutputVolts = 12 * supplyVoltageSignal.getValue();
+
+        return(current);
     }
 }
