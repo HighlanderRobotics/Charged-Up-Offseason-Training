@@ -30,19 +30,23 @@ public class RobotContainer {
     Robot.isReal() ? new SwerveModuleIOReal(
       Constants.MOTOR_ID_FRONT_LEFT_ROTATION,
       Constants.MOTOR_ID_FRONT_LEFT_DRIVE,
-      Constants.ENCODER_ID_FRONT_LEFT) : new SwerveModuleIOSim(), 
+      Constants.ENCODER_ID_FRONT_LEFT,
+      Constants.FRONT_LEFT_ENCODER_OFFSET) : new SwerveModuleIOSim(), 
     Robot.isReal() ? new SwerveModuleIOReal(
       Constants.MOTOR_ID_FRONT_RIGHT_ROTATION, 
       Constants.MOTOR_ID_FRONT_RIGHT_DRIVE, 
-      Constants.ENCODER_ID_FRONT_RIGHT) : new SwerveModuleIOSim(), 
+      Constants.ENCODER_ID_FRONT_RIGHT,
+      Constants.FRONT_RIGHT_ENCODER_OFFSET) : new SwerveModuleIOSim(), 
     Robot.isReal() ? new SwerveModuleIOReal(
       Constants.MOTOR_ID_BACK_LEFT_ROTATION, 
       Constants.MOTOR_ID_BACK_LEFT_DRIVE, 
-      Constants.ENCODER_ID_BACK_LEFT) : new SwerveModuleIOSim(), 
+      Constants.ENCODER_ID_BACK_LEFT,
+      Constants.BACK_LEFT_ENCODER_OFFSET) : new SwerveModuleIOSim(), 
     Robot.isReal() ? new SwerveModuleIOReal(
       Constants.MOTOR_ID_BACK_RIGHT_ROTATION, 
       Constants.MOTOR_ID_BACK_RIGHT_DRIVE, 
-      Constants.ENCODER_ID_BACK_RIGHT) : new SwerveModuleIOSim(),
+      Constants.ENCODER_ID_BACK_RIGHT,
+      Constants.BACK_RIGHT_ENCODER_OFFSET) : new SwerveModuleIOSim(),
     new GyroModuleIOReal(Constants.GYRO_MODULE_ID));
 
   IntakeSubsystem intakeSubsystem = new IntakeSubsystem(new IntakeIOReal());
@@ -62,7 +66,7 @@ public class RobotContainer {
       () -> deadband(controller.getLeftY()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */,
       () -> deadband(controller.getLeftX()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */, 
       () -> deadband(controller.getRightX()) * -1 /* invert controls */,
-      true) );
+      false) );
       
   }
 

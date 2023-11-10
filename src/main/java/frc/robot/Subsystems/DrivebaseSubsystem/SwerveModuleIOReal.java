@@ -5,6 +5,7 @@
 package frc.robot.Subsystems.DrivebaseSubsystem;
 
 import com.ctre.phoenixpro.StatusSignalValue;
+import com.ctre.phoenixpro.configs.CANcoderConfiguration;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 import com.ctre.phoenixpro.controls.ControlRequest;
@@ -15,6 +16,7 @@ import com.ctre.phoenixpro.controls.VoltageOut;
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
+import com.ctre.phoenixpro.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -38,16 +40,22 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
     PositionVoltage swerveRequest = new PositionVoltage(0);
     VelocityVoltage driveRequest = new VelocityVoltage(0);
+
+    double encoderOffset;
     
-    public SwerveModuleIOReal(int swerveID, int driveID, int encoderID){
+    public SwerveModuleIOReal(int swerveID, int driveID, int encoderID, double encoderOffset){
         swerveMotor = new TalonFX(swerveID);
         driveMotor = new TalonFX(driveID);
         encoder = new CANcoder(encoderID);
 
-        
+        this.encoderOffset = encoderOffset;
 
         TalonFXConfiguration driveConfig  = new TalonFXConfiguration();
         TalonFXConfiguration turnConfig = new TalonFXConfiguration();
+        CANcoderConfiguration encoderConfig = new CANcoderConfiguration();
+
+        encoderConfig.MagnetSensor.MagnetOffset = encoderOffset;
+        encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
         
         turnConfig.Slot0.kP = 0.2;
         turnConfig.Slot0.kD = 0;
@@ -57,6 +65,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         driveConfig.Slot0.kD = 0;
         driveConfig.Slot0.kI = 0;
         
+        encoder.getConfigurator().apply(encoderConfig);
 
         driveMotor.getConfigurator().apply(driveConfig);
        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -72,6 +81,8 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         driveSignal = driveMotor.getSupplyVoltage();
         inputs.swerveOutputVolts = swerveSignal.getValue();
         inputs.driveOutputVolts = driveSignal.getValue();
+
+        inputs.encoderPosition = encoder.getAbsolutePosition().getValue();
     
         inputs.swerveVelocityMetersPerSecond = 0.0;
         inputs.driveVelocityMetersPerSecond = 0.0;
@@ -115,6 +126,6 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
     @Override
     public void resetEncoder(){
-        swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue() + Constants.ENCODER_OFFSET) * Constants.ROTATION_GEAR_RATIO);
+        swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue()) * Constants.ROTATION_GEAR_RATIO);
     }
 }

@@ -33,7 +33,11 @@ public class Constants {
 
     public static final int GYRO_MODULE_ID = 0;
 
-    public static final double ENCODER_OFFSET = 0.0;
+    public static final double BACK_RIGHT_ENCODER_OFFSET = 0.245361;
+    public static final double BACK_LEFT_ENCODER_OFFSET = 0.85;
+    public static final double FRONT_LEFT_ENCODER_OFFSET = 0.735107;
+    public static final double FRONT_RIGHT_ENCODER_OFFSET = 0.076172;
+
 
     public static final int INTAKE_SUBSYSTEM_ID = 27;
     public static final int ARM_PIVOT_ID = 16;

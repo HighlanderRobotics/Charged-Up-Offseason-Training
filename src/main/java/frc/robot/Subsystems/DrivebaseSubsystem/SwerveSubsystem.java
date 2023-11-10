@@ -110,8 +110,19 @@ public class SwerveSubsystem extends SubsystemBase {
         backRightInputs = new SwerveModuleIOInputsAutoLogged();
         gyroInputs = new GyroModuleIOInputsAutoLogged();
 
-        SmartDashboard.putData("drive zero", drive(() -> 0.0, () -> 0.0, () -> 0.0, true));
-        SmartDashboard.putData("drive forward 0.5", drive(() -> 0.5, () -> 0.0, () -> 0.0, true));
+        SmartDashboard.putData("drive zero", drive(() -> 0.0, () -> 0.0, () -> 0.0, false));
+        SmartDashboard.putData("drive forward 0.5", drive(() -> 0.5, () -> 0.0, () -> 0.0, false));
+        SmartDashboard.putData("Reseet Encoder", resetEncoder());
+    }
+
+    public CommandBase resetEncoder(){
+        return new InstantCommand( () -> {
+            frontLeftIo.resetEncoder();
+            frontRightIo.resetEncoder();
+            backLeftIo.resetEncoder();
+            backRightIo.resetEncoder();
+        },this);
+        
     }
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
@@ -215,6 +226,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 backLeftInputs.drivePositionMeters,
                 backRightInputs.swerveRotationRadians,
                 backRightInputs.drivePositionMeters,
+                
             });
 
     }

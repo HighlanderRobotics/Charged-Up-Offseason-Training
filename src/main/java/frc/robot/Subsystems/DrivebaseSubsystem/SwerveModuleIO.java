@@ -22,6 +22,8 @@ public interface SwerveModuleIO {
     
         public double swerveRotationRadians = 0.0;
         public double drivePositionMeters = 0.0;
+
+        public double encoderPosition;
     
         public double[] swerveCurrentAmps = new double[0];
         public double[] swerveTempCelsius = new double[0];
