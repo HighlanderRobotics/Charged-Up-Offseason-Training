@@ -1,9 +1,12 @@
+package frc.robot.Subsystems.Pivot;
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 
 import com.ctre.phoenixpro.StatusSignalValue;
+import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 import com.ctre.phoenixpro.controls.DutyCycleOut;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.controls.TorqueCurrentFOC;
@@ -14,12 +17,23 @@ import frc.robot.Constants;
 
 public class PivotIOReal implements PivotIO{
 
-    public static final TalonFX pivotMotor = new TalonFX(Constants.PIVOT_MOTOR_ID);
+    private TalonFX pivotMotor = new TalonFX(Constants.PIVOT_MOTOR_ID);
+    private PositionVoltage motorRequest = new PositionVoltage(Constants.PIVOT_MOTOR_ID);
+
+    
     private StatusSignalValue<Double> supplyVoltageSignal = pivotMotor.getDutyCycle();
-    private PositionVoltage motorRequest = new PositionVoltage(0);
     private StatusSignalValue<Double> position = pivotMotor.getRotorPosition();
     private StatusSignalValue<Double> velocity = pivotMotor.getRotorVelocity();
     private StatusSignalValue<Double> currentDraw = pivotMotor.getStatorCurrent();
+
+
+    public PivotIOReal (){
+        TalonFXConfiguration pivotConfig  = new TalonFXConfiguration();
+
+        pivotConfig.Slot0.kP = 0;
+        pivotConfig.Slot0.kD = 0;
+        pivotConfig.Slot0.kI = 0;
+    }
 
     @Override
     public void setPosition(double degrees) {

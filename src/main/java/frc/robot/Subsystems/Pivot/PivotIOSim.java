@@ -42,4 +42,10 @@ public class PivotIOSim implements PivotIO {
         arm.setInput(outputVolts);
     }
 
+    @Override
+    public void reset(double degrees) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
