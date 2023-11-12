@@ -61,7 +61,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
 
         turnConfig.Feedback.FeedbackRemoteSensorID = encoderID;
-        turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+        turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
         turnConfig.Feedback.SensorToMechanismRatio = 1.0;
         turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
         turnConfig.ClosedLoopGeneral.ContinuousWrap = true;
