@@ -17,6 +17,7 @@ import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenixpro.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenixpro.signals.InvertedValue;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
 import com.ctre.phoenixpro.signals.SensorDirectionValue;
 
@@ -62,10 +63,12 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
         turnConfig.Feedback.FeedbackRemoteSensorID = encoderID;
         turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+        turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         turnConfig.Feedback.SensorToMechanismRatio = 1.0;
         turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
         turnConfig.ClosedLoopGeneral.ContinuousWrap = true;
         
+
         turnConfig.Slot0.kP = 0.2;
         turnConfig.Slot0.kD = 0;
         turnConfig.Slot0.kI = 0;
@@ -135,6 +138,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
     @Override
     public void resetEncoder(){
-        swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue()) * Constants.ROTATION_GEAR_RATIO);
+        
+        //swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue()) * Constants.ROTATION_GEAR_RATIO);
     }
 }
