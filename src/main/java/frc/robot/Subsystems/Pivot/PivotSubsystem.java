@@ -31,7 +31,4 @@ public class PivotSubsystem extends SubsystemBase {
         inputs = io.updateInputs();
         Logger.getInstance().processInputs("Pivot", inputs);
     }
-
-
-
 }

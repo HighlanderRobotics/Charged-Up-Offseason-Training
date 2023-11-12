@@ -51,9 +51,9 @@ public class PivotIOReal implements PivotIO{
         // TODO Auto-generated method stub
         PivotIOInputsAutoLogged current = new PivotIOInputsAutoLogged();
 
-        current.currentDrawAmps = currentDraw.getValue();
-        current.positionDegrees = position.getValue();
-        current.velocityRPM = velocity.getValue();
+        current.currentDrawAmps = currentDraw.refresh().getValue();
+        current.positionDegrees = position.refresh().getValue();
+        current.velocityRPM = velocity.refresh().getValue();
         current.motorOutputVolts = 12 * supplyVoltageSignal.getValue();
 
         return(current);
