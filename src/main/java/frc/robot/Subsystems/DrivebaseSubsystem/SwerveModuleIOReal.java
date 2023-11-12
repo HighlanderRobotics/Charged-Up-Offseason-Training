@@ -15,6 +15,8 @@ import com.ctre.phoenixpro.controls.VelocityVoltage;
 import com.ctre.phoenixpro.controls.VoltageOut;
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
+import com.ctre.phoenixpro.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenixpro.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
 import com.ctre.phoenixpro.signals.SensorDirectionValue;
 
@@ -56,6 +58,13 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
         encoderConfig.MagnetSensor.MagnetOffset = encoderOffset;
         encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+
+        turnConfig.Feedback.FeedbackRemoteSensorID = encoderID;
+        turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+        turnConfig.Feedback.SensorToMechanismRatio = 1.0;
+        turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
+        turnConfig.ClosedLoopGeneral.ContinuousWrap = true;
         
         turnConfig.Slot0.kP = 0.2;
         turnConfig.Slot0.kD = 0;
@@ -66,7 +75,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         driveConfig.Slot0.kI = 0;
         
         encoder.getConfigurator().apply(encoderConfig);
-
+        
         driveMotor.getConfigurator().apply(driveConfig);
        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
         swerveMotor.getConfigurator().apply(turnConfig);
