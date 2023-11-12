@@ -4,18 +4,10 @@
 
 package frc.robot.Subsystems.DrivebaseSubsystem;
 
-import java.util.function.DoubleSupplier;
-
-import com.ctre.phoenixpro.configs.Slot0Configs;
-import com.ctre.phoenixpro.controls.ControlRequest;
-import com.ctre.phoenixpro.controls.PositionVoltage;
-import com.ctre.phoenixpro.controls.VelocityVoltage;
-import com.ctre.phoenixpro.controls.VoltageOut;
-import com.ctre.phoenixpro.hardware.TalonFX;
-
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 
 /** Add your docs here. */
 public class SwerveModuleIOSim implements SwerveModuleIO{

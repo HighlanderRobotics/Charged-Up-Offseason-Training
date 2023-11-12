@@ -4,8 +4,6 @@
 
 package frc.robot.Subsystems.Pivot;
 
-import com.ctre.phoenixpro.hardware.TalonFX;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;

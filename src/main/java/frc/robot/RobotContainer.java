@@ -4,18 +4,13 @@
 
 package frc.robot;
 
-import com.ctre.phoenixpro.hardware.CANcoder;
-
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.Autonomous;
 import frc.robot.Subsystems.DrivebaseSubsystem.GyroModuleIOReal;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOReal;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIOSim;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveSubsystem;
-import frc.robot.Subsystems.Intake.IntakeIO;
 import frc.robot.Subsystems.Intake.IntakeIOReal;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 
