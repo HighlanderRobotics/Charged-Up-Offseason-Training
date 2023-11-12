@@ -4,19 +4,12 @@
 
 package frc.robot.Subsystems.DrivebaseSubsystem;
 
-import java.sql.Driver;
 import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
-
-import com.ctre.phoenixpro.controls.VelocityVoltage;
-import com.ctre.phoenixpro.hardware.CANcoder;
-import com.ctre.phoenixpro.hardware.TalonFX;
-
+import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -24,13 +17,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIO.SwerveModuleIOInputs;
 
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase {
@@ -54,6 +46,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     CANcoder encoder;
 
+    
     
 
     // Creating kinematics object using the module locations
@@ -105,10 +98,24 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeftInputs = new SwerveModuleIOInputsAutoLogged();
         backRightInputs = new SwerveModuleIOInputsAutoLogged();
         gyroInputs = new GyroModuleIOInputsAutoLogged();
+
+        SmartDashboard.putData("drive zero", drive(() -> 0.0, () -> 0.0, () -> 0.0, false));
+        SmartDashboard.putData("drive forward 0.5", drive(() -> 0.5, () -> 0.0, () -> 0.0, false));
+        SmartDashboard.putData("Reseet Encoder", resetEncoder());
+    }
+
+    public CommandBase resetEncoder(){
+        return new InstantCommand( () -> {
+            frontLeftIo.resetEncoder();
+            frontRightIo.resetEncoder();
+            backLeftIo.resetEncoder();
+            backRightIo.resetEncoder();
+        },this);
+        
     }
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
-        return new RunCommand(() -> {
+        return this.run(() -> {
             speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), theta.getAsDouble());
          if(isFieldRelative){
             
@@ -130,15 +137,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
         
 
-            frontLeftIo.setDrive(frontLeft.angle.getDegrees(), frontLeft.speedMetersPerSecond);
-            frontRightIo.setDrive(frontRight.angle.getDegrees(), frontRight.speedMetersPerSecond);
-            backLeftIo.setDrive(backLeft.angle.getDegrees(), backLeft.speedMetersPerSecond);
-            backRightIo.setDrive(backRight.angle.getDegrees(), backRight.speedMetersPerSecond);
-
+            frontLeftIo.setDrive(frontLeft.angle, frontLeft.speedMetersPerSecond); 
+            frontRightIo.setDrive(frontRight.angle, frontRight.speedMetersPerSecond); 
+            backLeftIo.setDrive(backLeft.angle, backLeft.speedMetersPerSecond); 
+            backRightIo.setDrive(backRight.angle, backRight.speedMetersPerSecond); 
+            
             
 
-        }, this);
+        });
     }
+
+
     
     public CommandBase balance(){
         /*
@@ -206,6 +215,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 backLeftInputs.drivePositionMeters,
                 backRightInputs.swerveRotationRadians,
                 backRightInputs.drivePositionMeters,
+                
             });
 
     }

@@ -6,8 +6,7 @@ package frc.robot.Subsystems.DrivebaseSubsystem;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 /** Add your docs here. */
 public interface SwerveModuleIO {
@@ -21,6 +20,8 @@ public interface SwerveModuleIO {
     
         public double swerveRotationRadians = 0.0;
         public double drivePositionMeters = 0.0;
+
+        public double encoderPosition;
     
         public double[] swerveCurrentAmps = new double[0];
         public double[] swerveTempCelsius = new double[0];
@@ -37,7 +38,7 @@ public interface SwerveModuleIO {
 
     public abstract SwerveModuleIOInputsAutoLogged updateInputs();
 
-    public abstract void setDrive(double rotation, double driveMPS);
+    public abstract void setDrive(Rotation2d rotation, double driveMPS);
 
     public abstract void setDriveVoltage(double rotation, double driveVoltage);
 

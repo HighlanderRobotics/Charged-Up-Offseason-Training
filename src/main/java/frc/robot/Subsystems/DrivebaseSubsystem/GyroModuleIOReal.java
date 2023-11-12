@@ -4,29 +4,29 @@
 
 package frc.robot.Subsystems.DrivebaseSubsystem;
 
-import com.ctre.phoenixpro.StatusSignalValue;
-import com.ctre.phoenixpro.Timestamp;
-import com.ctre.phoenixpro.Timestamp.TimestampSource;
-import com.ctre.phoenixpro.hardware.Pigeon2;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 /** Add your docs here. */
 public class GyroModuleIOReal implements GyroModuleIO{
     Pigeon2 gyro;
-    StatusSignalValue statusSignal;
-    Timestamp dTime;
-    double deltaPitch = gyro.getPitch().getValue();
+    StatusSignal<Double> statusSignal;
+    Double dTime;
+    double deltaPitch;
     
     public GyroModuleIOReal(int gyroID){
         gyro = new Pigeon2(gyroID);
-        statusSignal = new StatusSignalValue<>(null, null);
+        statusSignal = gyro.getPitch();
+        dTime = statusSignal.getValue();
+        deltaPitch = 0;
     }
 
     private double getAngularRate() {
         double slope = 0.0;
-        if(dTime.getTime() != statusSignal.getTimestamp().getTime()){
-            slope = (gyro.getPitch().getValue() - deltaPitch) / (statusSignal.getTimestamp().getTime() - dTime.getTime());
+        if(dTime != statusSignal.getValue()){
+            slope = (gyro.getPitch().getValue() - deltaPitch) / (statusSignal.getValue() - dTime);
 
-            dTime = statusSignal.getTimestamp();
+            dTime = statusSignal.getValue();
             deltaPitch = gyro.getPitch().getValue();
         }
         

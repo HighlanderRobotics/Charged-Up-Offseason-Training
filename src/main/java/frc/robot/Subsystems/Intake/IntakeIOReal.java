@@ -4,7 +4,7 @@
 
 package frc.robot.Subsystems.Intake;
 
-import com.ctre.phoenixpro.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 /** Add your docs here. */
 public class IntakeIOReal implements IntakeIO {
