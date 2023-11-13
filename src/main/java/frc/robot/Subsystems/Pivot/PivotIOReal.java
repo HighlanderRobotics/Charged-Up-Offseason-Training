@@ -30,8 +30,8 @@ public class PivotIOReal implements PivotIO{
     public PivotIOReal (){
         TalonFXConfiguration pivotConfig  = new TalonFXConfiguration();
 
-        pivotConfig.Slot0.kP = 0;
-        pivotConfig.Slot0.kD = 0;
+        pivotConfig.Slot0.kP = 1;
+        pivotConfig.Slot0.kD = 0.01;
         pivotConfig.Slot0.kI = 0;
     }
 
@@ -52,8 +52,8 @@ public class PivotIOReal implements PivotIO{
         PivotIOInputsAutoLogged current = new PivotIOInputsAutoLogged();
 
         current.currentDrawAmps = currentDraw.refresh().getValue();
-        current.positionDegrees = position.refresh().getValue();
-        current.velocityRPM = velocity.refresh().getValue();
+        current.positionRotations = position.refresh().getValue() / Constants.PIVOT_GEAR_RATIO;
+        current.velocityRPM = velocity.refresh().getValue() / Constants.PIVOT_GEAR_RATIO;
         current.motorOutputVolts = 12 * supplyVoltageSignal.getValue();
 
         return(current);

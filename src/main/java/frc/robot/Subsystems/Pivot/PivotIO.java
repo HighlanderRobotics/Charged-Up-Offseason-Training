@@ -17,7 +17,7 @@ public interface PivotIO {
         public double currentDrawAmps;
         public double temperatureCelsius;
         public double motorOutputVolts;
-        public double positionDegrees;
+        public double positionRotations;
 
     }
 

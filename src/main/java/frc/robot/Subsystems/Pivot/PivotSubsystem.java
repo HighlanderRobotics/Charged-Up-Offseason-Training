@@ -6,7 +6,9 @@ package frc.robot.Subsystems.Pivot;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,6 +20,16 @@ public class PivotSubsystem extends SubsystemBase {
     public PivotSubsystem(PivotIO io) {
         this.io = io;
         inputs =  new PivotIOInputsAutoLogged();
+
+        SmartDashboard.putData("reset Pivot value", new InstantCommand(
+            ()->{io.reset(0);}
+            ));
+    }
+
+    public CommandBase reset (){
+       return new InstantCommand(
+            ()->{io.reset(0);}
+            );
     }
 
     public CommandBase run(double degrees) {

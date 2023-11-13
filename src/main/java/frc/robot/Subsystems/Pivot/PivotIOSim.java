@@ -26,7 +26,7 @@ public class PivotIOSim implements PivotIO {
         input.currentDrawAmps = arm.getCurrentDrawAmps();
         input.temperatureCelsius = 0;
         input.motorOutputVolts = arm.getOutput(0);
-        input.positionDegrees = Units.radiansToDegrees(arm.getAngleRads());
+        input.positionRotations = Units.radiansToDegrees(arm.getAngleRads());
 
         arm.update(0.020);
 

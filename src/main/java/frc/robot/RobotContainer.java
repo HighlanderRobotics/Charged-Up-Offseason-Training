@@ -68,6 +68,10 @@ public class RobotContainer {
     //   () -> deadband(controller.getLeftX()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */, 
     //   () -> deadband(controller.getRightX()) * -1 /* invert controls */,
     //   true) );
+
+    pivotSubsystem.setDefaultCommand(pivotSubsystem.run(0));
+    controller.leftBumper().whileTrue(pivotSubsystem.run(80));
+    controller.rightBumper().whileTrue(pivotSubsystem.reset().ignoringDisable(true));
       
   }
 
