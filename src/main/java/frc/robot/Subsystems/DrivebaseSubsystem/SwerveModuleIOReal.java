@@ -26,8 +26,10 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     TalonFX swerveMotor;
     TalonFX driveMotor;
 
-    StatusSignal<Double> swerveSignal;
-    StatusSignal<Double> driveSignal;
+    StatusSignal<Double> swerveSignalVoltage;
+    StatusSignal<Double> driveSignalVoltage;
+    
+    StatusSignal<Double> swerveSignalPosition;
 
     CANcoder encoder;
 
@@ -59,7 +61,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
         turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         turnConfig.Feedback.SensorToMechanismRatio = 1.0;
-        turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
+        // turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO; /* rotor is never used */
         turnConfig.ClosedLoopGeneral.ContinuousWrap = true;
         
 
@@ -83,24 +85,21 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     public SwerveModuleIOInputsAutoLogged updateInputs() {
 
         SwerveModuleIOInputsAutoLogged inputs = new SwerveModuleIOInputsAutoLogged();
-        swerveSignal = swerveMotor.getSupplyVoltage();
-        driveSignal = driveMotor.getSupplyVoltage();
-        inputs.swerveOutputVolts = swerveSignal.getValue();
-        inputs.driveOutputVolts = driveSignal.getValue();
+
+        swerveSignalVoltage = swerveMotor.getSupplyVoltage();
+        driveSignalVoltage = driveMotor.getSupplyVoltage();
+        swerveSignalPosition = swerveMotor.getRotorPosition();
+
+        inputs.swerveOutputVolts = swerveSignalVoltage.getValue();
+        inputs.driveOutputVolts = driveSignalVoltage.getValue();
 
         inputs.encoderPosition = encoder.getAbsolutePosition().getValue();
     
         inputs.swerveVelocityMetersPerSecond = 0.0;
         inputs.driveVelocityMetersPerSecond = 0.0;
-        swerveSignal = swerveMotor.getRotorPosition();
-        inputs.swerveRotationRadians = swerveSignal.getValue();
+        
+        inputs.swerveRotationRotations = swerveSignalPosition.getValue();
         inputs.drivePositionMeters = (driveMotor.getPosition().getValue() / 6.86 ) * (4 * Math.PI); // 6.86 to adjust for gear ratio, and then multiply by circumfrence
-        /*
-        inputs.swerveCurrentAmps = new double[] {swerveSimState.getTorqueCurrent()};
-        inputs.swerveTempCelsius = new double[0];
-        inputs.driveCurrentAmps = new double[] {driveSimState.getTorqueCurrent()};
-        inputs.driveTempCelsius = new double[0];
-        */
 
         return inputs;
        
