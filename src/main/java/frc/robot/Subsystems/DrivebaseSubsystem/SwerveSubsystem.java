@@ -207,13 +207,13 @@ public class SwerveSubsystem extends SubsystemBase {
         .recordOutput(
             "Swerve States",
             new double[] {
-                frontLeftInputs.swerveRotationRadians,
+                frontLeftInputs.swerveRotationRotations,
                 frontLeftInputs.drivePositionMeters,
-                frontRightInputs.swerveRotationRadians,
+                frontRightInputs.swerveRotationRotations,
                 frontRightInputs.drivePositionMeters,
-                backLeftInputs.swerveRotationRadians,
+                backLeftInputs.swerveRotationRotations,
                 backLeftInputs.drivePositionMeters,
-                backRightInputs.swerveRotationRadians,
+                backRightInputs.swerveRotationRotations,
                 backRightInputs.drivePositionMeters,
                 
             });

@@ -38,7 +38,7 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         inputs.swerveVelocityMetersPerSecond = 0.0;
         inputs.driveVelocityMetersPerSecond = 0.0;
     
-        inputs.swerveRotationRadians = lastRotation;
+        inputs.swerveRotationRotations = lastRotation;
         inputs.drivePositionMeters = lastPosition;
         
 
