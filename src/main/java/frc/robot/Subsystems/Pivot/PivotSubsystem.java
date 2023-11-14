@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class PivotSubsystem extends SubsystemBase {
     PivotIO io;
     PivotIOInputsAutoLogged inputs;
-
+ 
     public PivotSubsystem(PivotIO io) {
         this.io = io;
         inputs =  new PivotIOInputsAutoLogged();
