@@ -129,11 +129,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
         // Convert to module states
         moduleStates = swerveKinematics.toSwerveModuleStates(speeds);
-         frontLeft = moduleStates[0];
-         frontRight = moduleStates[1];
-         backLeft = moduleStates[2];
-         backRight = moduleStates[3];
-
+        frontLeft = moduleStates[0];
+        frontRight = moduleStates[1];
+        backLeft = moduleStates[2];
+        backRight = moduleStates[3];
+        
 
         
 

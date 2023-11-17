@@ -56,16 +56,16 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         encoderConfig.MagnetSensor.MagnetOffset = encoderOffset;
         encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
         encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-
-        turnConfig.Feedback.FeedbackRemoteSensorID = encoderID;
-        turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    
+        turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        
+        turnConfig.ClosedLoopGeneral.ContinuousWrap = false;
         turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         turnConfig.Feedback.SensorToMechanismRatio = 1.0;
-        // turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO; /* rotor is never used */
-        turnConfig.ClosedLoopGeneral.ContinuousWrap = true;
+        turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
         
 
-        turnConfig.Slot0.kP = 0.2;
+        turnConfig.Slot0.kP = 0.3;
         turnConfig.Slot0.kD = 0;
         turnConfig.Slot0.kI = 0;
 
@@ -132,6 +132,6 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     @Override
     public void resetEncoder(){
         
-        //swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue()) * Constants.ROTATION_GEAR_RATIO);
+        swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue()) * Constants.ROTATION_GEAR_RATIO);
     }
 }

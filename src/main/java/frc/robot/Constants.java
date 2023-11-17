@@ -25,7 +25,7 @@ public class Constants {
 
     public static final int MOTOR_ID_BACK_RIGHT_DRIVE = 2;
     public static final int MOTOR_ID_BACK_RIGHT_ROTATION = 1;
-    public static final int ENCODER_ID_BACK_RIGHT = 11;
+    public static final int ENCODER_ID_BACK_RIGHT = 22;
 
     public static final double ROTATION_GEAR_RATIO = 12.8;
     public static final double DRIVE_GEAR_RATIO = 6.86;
@@ -33,10 +33,10 @@ public class Constants {
 
     public static final int GYRO_MODULE_ID = 0;
 
-    public static final double BACK_RIGHT_ENCODER_OFFSET = 0.245361;
-    public static final double BACK_LEFT_ENCODER_OFFSET = 0.85;
-    public static final double FRONT_LEFT_ENCODER_OFFSET = 0.735107;
-    public static final double FRONT_RIGHT_ENCODER_OFFSET = 0.076172;
+    public static final double BACK_RIGHT_ENCODER_OFFSET = 0.22168;
+    public static final double BACK_LEFT_ENCODER_OFFSET = -0.163086;
+    public static final double FRONT_LEFT_ENCODER_OFFSET = -0.125244;
+    public static final double FRONT_RIGHT_ENCODER_OFFSET = -0.467773;
 
 
     public static final int INTAKE_SUBSYSTEM_ID = 27;
