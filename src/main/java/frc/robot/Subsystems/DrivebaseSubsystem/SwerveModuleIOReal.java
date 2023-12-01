@@ -64,6 +64,8 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         turnConfig.Feedback.SensorToMechanismRatio = 1.0;
         turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
+
+        driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         
 
         turnConfig.Slot0.kP = 1.0;
