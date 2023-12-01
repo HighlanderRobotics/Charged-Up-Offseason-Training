@@ -18,6 +18,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
 /** Does not work as real yet. */
@@ -54,7 +55,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         CANcoderConfiguration encoderConfig = new CANcoderConfiguration();
 
         encoderConfig.MagnetSensor.MagnetOffset = encoderOffset;
-        encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     
         turnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
@@ -65,9 +66,10 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         turnConfig.Feedback.RotorToSensorRatio = Constants.ROTATION_GEAR_RATIO;
         
 
-        turnConfig.Slot0.kP = 0.3;
+        turnConfig.Slot0.kP = 1.0;
         turnConfig.Slot0.kD = 0;
         turnConfig.Slot0.kI = 0;
+        turnConfig.Slot0.kS = 0.2;
 
         driveConfig.Slot0.kP = 0.05;
         driveConfig.Slot0.kD = 0;
@@ -78,6 +80,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         driveMotor.getConfigurator().apply(driveConfig);
        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
         swerveMotor.getConfigurator().apply(turnConfig);
+        Timer.delay(0.1);
         resetEncoder();
     }
 
@@ -133,5 +136,6 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
     public void resetEncoder(){
         
         swerveMotor.setRotorPosition((encoder.getAbsolutePosition().getValue()) * Constants.ROTATION_GEAR_RATIO);
+        System.out.println("reset swerbe heading");
     }
 }

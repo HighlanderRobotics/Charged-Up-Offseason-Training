@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIO.SwerveModuleIOInputs;
 
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase {
@@ -102,6 +104,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putData("drive zero", drive(() -> 0.0, () -> 0.0, () -> 0.0, false));
         SmartDashboard.putData("drive forward 0.5", drive(() -> 0.5, () -> 0.0, () -> 0.0, false));
         SmartDashboard.putData("Reseet Encoder", resetEncoder());
+        
     }
 
     public CommandBase resetEncoder(){
@@ -142,6 +145,7 @@ public class SwerveSubsystem extends SubsystemBase {
             backLeftIo.setDrive(backLeft.angle, backLeft.speedMetersPerSecond); 
             backRightIo.setDrive(backRight.angle, backRight.speedMetersPerSecond); 
             
+            Logger.getInstance().recordOutput("module states", moduleStates);
             
 
         });
@@ -207,17 +211,20 @@ public class SwerveSubsystem extends SubsystemBase {
         .recordOutput(
             "Swerve States",
             new double[] {
-                frontLeftInputs.swerveRotationRotations,
-                frontLeftInputs.drivePositionMeters,
-                frontRightInputs.swerveRotationRotations,
-                frontRightInputs.drivePositionMeters,
-                backLeftInputs.swerveRotationRotations,
-                backLeftInputs.drivePositionMeters,
-                backRightInputs.swerveRotationRotations,
-                backRightInputs.drivePositionMeters,
+                Units.rotationsToRadians(frontLeftInputs.swerveRotationRotations) / Constants.ROTATION_GEAR_RATIO,
+                frontLeftInputs.driveVelocityMetersPerSecond,
+                Units.rotationsToRadians(frontRightInputs.swerveRotationRotations) / Constants.ROTATION_GEAR_RATIO,
+                frontRightInputs.driveVelocityMetersPerSecond,
+                Units.rotationsToRadians(backLeftInputs.swerveRotationRotations) / Constants.ROTATION_GEAR_RATIO,
+                backLeftInputs.driveVelocityMetersPerSecond,
+                Units.rotationsToRadians(backRightInputs.swerveRotationRotations) / Constants.ROTATION_GEAR_RATIO,
+                backRightInputs.driveVelocityMetersPerSecond,
                 
             });
-
+            Logger.getInstance().recordOutput("Front Left Encoder Position", frontLeftInputs.encoderPosition * Constants.ROTATION_GEAR_RATIO);
+            Logger.getInstance().recordOutput("Front Right Encoder Position", frontRightInputs.encoderPosition * Constants.ROTATION_GEAR_RATIO);
+            Logger.getInstance().recordOutput("Back Left Encoder Position", backLeftInputs.encoderPosition * Constants.ROTATION_GEAR_RATIO);
+            Logger.getInstance().recordOutput("Back Right Encoder Position", backRightInputs.encoderPosition * Constants.ROTATION_GEAR_RATIO);
     }
     
 }
