@@ -68,10 +68,10 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         
 
-        turnConfig.Slot0.kP = 1.0;
+        turnConfig.Slot0.kP = 2.0;
         turnConfig.Slot0.kD = 0;
         turnConfig.Slot0.kI = 0;
-        turnConfig.Slot0.kS = 0.2;
+        turnConfig.Slot0.kS = 0.185;
 
         driveConfig.Slot0.kP = 0.05;
         driveConfig.Slot0.kD = 0;
