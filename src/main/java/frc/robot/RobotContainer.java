@@ -56,13 +56,13 @@ public class RobotContainer {
     }
     return joystick;
   }
-
+  
   private void configureBindings() {
     controller.b().onTrue(swerveSubsystem.resetEncoder());
     swerveSubsystem.setDefaultCommand(swerveSubsystem.drive(
       () -> deadband(controller.getLeftY()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */,
       () -> deadband(controller.getLeftX()) * Constants.DRIVEBASE_MAX_SPEED_FPS * -1 /* invert controls */, 
-      () -> deadband(controller.getRightX()) * -1 /* invert controls */,
+      () -> deadband(controller.getRightX()) * Constants.DRIVEBASE_MAX_ROTATION_RPS * -1 /* invert controls */,
       false) );
       
   }

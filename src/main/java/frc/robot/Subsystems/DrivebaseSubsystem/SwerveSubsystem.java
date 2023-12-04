@@ -23,12 +23,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 import frc.robot.Subsystems.DrivebaseSubsystem.SwerveModuleIO.SwerveModuleIOInputs;
 
 /** Add your docs here. */
 public class SwerveSubsystem extends SubsystemBase {
 
+    CommandXboxController controller = new CommandXboxController(0);
 
     SwerveModuleIO frontLeftIo;
     SwerveModuleIO frontRightIo;
@@ -118,7 +120,13 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
+        
         return this.run(() -> {
+
+            Logger.getInstance().recordOutput("forward", forward.getAsDouble());
+            Logger.getInstance().recordOutput("side", side.getAsDouble());
+            Logger.getInstance().recordOutput("theta", theta.getAsDouble());
+
             speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), theta.getAsDouble());
          if(isFieldRelative){
             
@@ -137,13 +145,18 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft = moduleStates[2];
         backRight = moduleStates[3];
         
+        var frontLeftOptimize = SwerveModuleState.optimize(frontLeft, new Rotation2d(theta.getAsDouble()));
+        var frontRightOptimize = SwerveModuleState.optimize(frontRight, new Rotation2d(theta.getAsDouble()));
+        var backLeftOptimize = SwerveModuleState.optimize(backLeft, new Rotation2d(theta.getAsDouble()));
+        var backRightOptimize = SwerveModuleState.optimize(backRight, new Rotation2d(theta.getAsDouble()));
+        
 
         
 
-            frontLeftIo.setDrive(frontLeft.angle, frontLeft.speedMetersPerSecond); 
-            frontRightIo.setDrive(frontRight.angle, frontRight.speedMetersPerSecond); 
-            backLeftIo.setDrive(backLeft.angle, backLeft.speedMetersPerSecond); 
-            backRightIo.setDrive(backRight.angle, backRight.speedMetersPerSecond); 
+            frontLeftIo.setDrive(frontLeftOptimize.angle, frontLeftOptimize.speedMetersPerSecond); 
+            frontRightIo.setDrive(frontRightOptimize.angle, frontRightOptimize.speedMetersPerSecond); 
+            backLeftIo.setDrive(backLeftOptimize.angle, backLeftOptimize.speedMetersPerSecond); 
+            backRightIo.setDrive(backRightOptimize.angle, backRightOptimize.speedMetersPerSecond); 
             
             Logger.getInstance().recordOutput("module states", moduleStates);
             

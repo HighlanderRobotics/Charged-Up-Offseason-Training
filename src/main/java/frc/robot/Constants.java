@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public class Constants {
     public static final double DRIVEBASE_MAX_SPEED_FPS = Units.feetToMeters(16);
+    public static final double DRIVEBASE_MAX_ROTATION_RPS = 10;
 
     public static final int MOTOR_ID_FRONT_LEFT_DRIVE = 6;
     public static final int MOTOR_ID_FRONT_LEFT_ROTATION = 5;
