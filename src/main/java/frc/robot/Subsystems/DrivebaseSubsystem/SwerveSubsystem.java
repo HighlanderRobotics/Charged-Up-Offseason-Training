@@ -119,15 +119,15 @@ public class SwerveSubsystem extends SubsystemBase {
         
     }
 
-    public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier theta, boolean isFieldRelative){
+    public CommandBase drive(DoubleSupplier forward, DoubleSupplier side, DoubleSupplier omega, boolean isFieldRelative){
         
         return this.run(() -> {
 
             Logger.getInstance().recordOutput("forward", forward.getAsDouble());
             Logger.getInstance().recordOutput("side", side.getAsDouble());
-            Logger.getInstance().recordOutput("theta", theta.getAsDouble());
+            Logger.getInstance().recordOutput("theta", omega.getAsDouble());
 
-            speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), theta.getAsDouble());
+            speeds = new ChassisSpeeds(forward.getAsDouble(), side.getAsDouble(), omega.getAsDouble());
          if(isFieldRelative){
             
             speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, odometry.getPoseMeters().getRotation().plus(
@@ -136,7 +136,7 @@ public class SwerveSubsystem extends SubsystemBase {
          }
          
          
-         heading += theta.getAsDouble() * 0.02;
+         heading += omega.getAsDouble() * 0.02;
 
         // Convert to module states
         moduleStates = swerveKinematics.toSwerveModuleStates(speeds);
@@ -145,10 +145,10 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft = moduleStates[2];
         backRight = moduleStates[3];
         
-        var frontLeftOptimize = SwerveModuleState.optimize(frontLeft, new Rotation2d(theta.getAsDouble()));
-        var frontRightOptimize = SwerveModuleState.optimize(frontRight, new Rotation2d(theta.getAsDouble()));
-        var backLeftOptimize = SwerveModuleState.optimize(backLeft, new Rotation2d(theta.getAsDouble()));
-        var backRightOptimize = SwerveModuleState.optimize(backRight, new Rotation2d(theta.getAsDouble()));
+        var frontLeftOptimize = SwerveModuleState.optimize(frontLeft, Rotation2d.fromRotations(frontLeftInputs.encoderPosition - Math.floor(frontLeftInputs.encoderPosition)));
+        var frontRightOptimize = SwerveModuleState.optimize(frontRight, Rotation2d.fromRotations(frontRightInputs.encoderPosition - Math.floor(frontRightInputs.encoderPosition)));
+        var backLeftOptimize = SwerveModuleState.optimize(backLeft, Rotation2d.fromRotations(backLeftInputs.encoderPosition - Math.floor(backLeftInputs.encoderPosition)));
+        var backRightOptimize = SwerveModuleState.optimize(backRight, Rotation2d.fromRotations(backRightInputs.encoderPosition - Math.floor(backRightInputs.encoderPosition)));
         
 
         
@@ -156,8 +156,7 @@ public class SwerveSubsystem extends SubsystemBase {
             frontLeftIo.setDrive(frontLeftOptimize.angle, frontLeftOptimize.speedMetersPerSecond); 
             frontRightIo.setDrive(frontRightOptimize.angle, frontRightOptimize.speedMetersPerSecond); 
             backLeftIo.setDrive(backLeftOptimize.angle, backLeftOptimize.speedMetersPerSecond); 
-            backRightIo.setDrive(backRightOptimize.angle, backRightOptimize.speedMetersPerSecond); 
-            
+            backRightIo.setDrive(backRightOptimize.angle, backRightOptimize.speedMetersPerSecond);
             Logger.getInstance().recordOutput("module states", moduleStates);
             
 
